@@ -30,6 +30,18 @@ class User < ActiveRecord::Base
 		end
 	end
 
+	def name
+		return self.first_name + " " + self.last_name
+	end
+
+	def is_trainer
+		if !self.trainer.nil?
+			return true
+		else
+			return false
+		end
+	end
+
 	private
 		def set_defaults
 			self.admin_permissions ||= false
