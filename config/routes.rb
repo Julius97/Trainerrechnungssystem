@@ -19,4 +19,11 @@ Rails.application.routes.draw do
   #CUSTOMER ROUTES
   resources :customer
 
+  #GROUP ROUTES
+  resources :group
+  post "add_customer_to_group", to: "group#add_customer_to_group"
+
+  #GROUPCLASSIFICATION ROUTES
+  resources :groupclassification
+
 end
