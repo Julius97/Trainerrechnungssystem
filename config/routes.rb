@@ -28,5 +28,6 @@ Rails.application.routes.draw do
 
   #TRAINING ROUTES
   resources :training
+  get "destroy_whole_training/:start_time/:end_time/:group_id", to: "training#destroy_whole_training", :as => "destroy_whole_training"
 
 end
