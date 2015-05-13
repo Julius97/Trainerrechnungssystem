@@ -26,4 +26,7 @@ Rails.application.routes.draw do
   #GROUPCLASSIFICATION ROUTES
   resources :groupclassification
 
+  #TRAINING ROUTES
+  resources :training
+
 end
