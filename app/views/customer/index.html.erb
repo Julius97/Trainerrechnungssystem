@@ -1,0 +1,13 @@
+<h1>Kunden</h1>
+<p>
+	<%= link_to "Neuen Kunden erstellen", new_customer_path %>
+</p>
+<table>
+	<% @customers.each do |customer| %>
+		<tr>
+			<td><%= link_to customer.name, customer_path(customer.id) %></td>
+			<td><%= link_to "Bearbeiten", edit_customer_path(customer.id) %></td>
+			<td><%= link_to "Löschen", customer_path(customer.id), method: :delete, data: { confirm: "Wirklich löschen?" } %></td>
+		</tr>
+	<% end %>
+</table>

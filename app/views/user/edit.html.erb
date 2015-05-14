@@ -1,0 +1,27 @@
+<h1>User "<%= @user.name %>" bearbeiten</h1>
+<%= form_tag user_path, method: :put do %>
+	<%= hidden_field_tag "user_id", @user.id %>
+	<%= label_tag "first_name", "Vorname" %><br />
+	<%= text_field_tag "first_name", @user.first_name %><br /><br />
+	<%= label_tag "last_name", "Nachname" %><br />
+	<%= text_field_tag "last_name", @user.last_name %><br /><br />
+	<%= label_tag "mail", "Mailadresse" %><br />
+	<%= text_field_tag "mail", @user.mail_address %><br /><br />
+	<% if @current_user.admin_permissions %>
+		<%= label_tag "is_trainer", "Trainer" %>
+		<% if @user.is_trainer %>
+			<%= check_box_tag "is_trainer", "1", true %>
+		<% else %>
+			<%= check_box_tag "is_trainer" %>
+		<% end %>
+		<br /><br />
+		<%= label_tag "admin_permissions" %>
+		<% if @user.admin_permissions %>
+			<%= check_box_tag "admin_permissions", "1", true %>
+		<% else %>
+			<%= check_box_tag "admin_permissions" %>
+		<% end %>
+		<br /><br />
+	<% end %>
+	<%= submit_tag "Bearbeiten" %>
+<% end %>

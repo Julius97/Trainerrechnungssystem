@@ -1,0 +1,15 @@
+<h1><%= @customer.name %></h1>
+<ul>
+	<li>Vorname: <%= @customer.first_name %></li>
+	<li>Nachname: <%= @customer.last_name %></li>
+	<h3>Trainingsgruppen</h3>
+	<% if @customer.groupclassifications.count > 0 %>
+		<ul>
+			<% @customer.groupclassifications.each do |groupclass| %>
+				<li><%= groupclass.group.name + " (bei " + groupclass.group.trainer.user.name + ")" %></li>
+			<% end %>
+		</ul>
+	<% else %>
+		keine
+	<% end %>
+</ul>

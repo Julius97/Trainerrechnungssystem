@@ -1,0 +1,7 @@
+<h1>Preis von <%= @price.trainer.user.name %></h1>
+<ul>
+	<li>Trainer: <%= @price.trainer.user.name %></li>
+	<li>Preis pro Stunde: <%= @price.price_per_lesson.to_s + " €" %></li>
+	<li>Zuschuss pro Stunde: <%= @price.discount_per_lesson.to_s  + " €" %></li>
+	<li>Kosten pro Stunde für Kunde: <%= @price.price_per_lesson.to_s + " € - " +  @price.discount_per_lesson.to_s  + " € = " + (@price.price_per_lesson-@price.discount_per_lesson).to_s + " €" %></li>
+</ul>

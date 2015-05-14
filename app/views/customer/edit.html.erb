@@ -1,0 +1,9 @@
+<h1>Kunden "<%= @customer.name %>" bearbeiten</h1>
+<%= form_tag customer_path, method: :put do %>
+	<%= hidden_field_tag "customer_id", @customer.id %>
+	<%= label_tag "first_name", "Vorname" %><br />
+	<%= text_field_tag "first_name", @customer.first_name %><br /><br />
+	<%= label_tag "last_name", "Nachname" %><br />
+	<%= text_field_tag "last_name", @customer.last_name %><br /><br />
+	<%= submit_tag "Bearbeiten" %>
+<% end %>

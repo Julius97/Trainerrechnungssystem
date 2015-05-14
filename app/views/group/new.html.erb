@@ -1,0 +1,12 @@
+<h1>Neue Gruppe erstellen</h1>
+<%= form_tag group_index_path, method: :post do %>
+	<%= label_tag "name", "Bezeichnung" %><br />
+	<%= text_field_tag "name" %><br /><br />
+	<%= label_tag "trainer_id", "Trainer" %>
+	<select name="trainer_id">
+		<% Trainer.all.each do |trainer| %>
+			<option value="<%= trainer.id %>"><%= trainer.user.name %></option>
+		<% end %>
+	</select><br /><br />
+	<%= submit_tag "Erstellen" %>
+<% end %>

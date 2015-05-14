@@ -1,0 +1,13 @@
+<h1>Trainingsgruppen</h1>
+<p>
+	<%= link_to "Neue Gruppe erstellen", new_group_path %>
+</p>
+<table>
+	<% @groups.each do |group| %>
+		<tr>
+			<td><%= link_to group.name + " (" + group.trainer.user.name + ")", group_path(group.id) %></td>
+			<td><%= link_to "Bearbeiten", edit_group_path(group.id) %></td>
+			<td><%= link_to "Löschen", group_path(group.id), method: :delete, data: { confirm: "Wirklich löschen?" } %></td>
+		</tr>
+	<% end %>
+</table>

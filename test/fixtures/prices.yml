@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  price_per_lesson: 1
+  discount_per_lesson: 1
+  trainer_id: 1
+
+two:
+  price_per_lesson: 1
+  discount_per_lesson: 1
+  trainer_id: 1

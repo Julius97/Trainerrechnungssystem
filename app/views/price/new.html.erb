@@ -1,0 +1,15 @@
+<h1>Neuen Preis erstellen</h1>
+<%= form_tag price_index_path, method: :post do %>
+	<%= label_tag "trainer_id", "Trainer" %>
+	<select name="trainer_id">
+		<% Trainer.all.each do |trainer| %>
+			<option value="<%= trainer.id %>"><%= trainer.user.name %></option>
+		<% end %>
+	</select>
+	<br /><br />
+	<%= label_tag "price_per_lesson", "Preis pro Stunde" %><br />
+	<%= number_field_tag "price_per_lesson", 1, :step => 1, :min => 1 %><br /><br />
+	<%= label_tag "discount_per_lesson", "Zuschuss pro Stunde" %><br />
+	<%= number_field_tag "discount_per_lesson", 0, :step => 1, :min => 0 %><br /><br />
+	<%= submit_tag "Erstellen" %>
+<% end %>

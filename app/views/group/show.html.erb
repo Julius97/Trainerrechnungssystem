@@ -1,0 +1,151 @@
+<h1><%= @group.name %></h1>
+<ul>
+	<li>Bezeichnung: <%= @group.name %></li>
+	<li>Trainer: <%= @group.trainer.user.name %></li>
+	<h3>Spieler</h3>
+	<% if @group.groupclassifications.count > 0 %>
+		<ul>
+			<% @group.groupclassifications.each do |groupclass| %>
+				<li><%= link_to groupclass.customer.name, customer_path(groupclass.customer.id) %> - <%= link_to "Aus Gruppe entfernen", groupclassification_path(groupclass.id), method: :delete, data: { confirm: "Wirklich löschen?" }  %></li>
+			<% end %>
+		</ul>
+	<% else %>
+		keine
+	<% end %>
+</ul>
+<h3>Training gegeben</h3>
+<table>
+	<thead>
+		<tr>
+			<th>Datum</th>
+			<th>Stunden</th>
+			<% customer_total_lessons = [] %>
+			<% customer_total_costs = [] %>
+			<% @group.groupclassifications.each do |groupclass| %>
+				<th><%= groupclass.customer.name %></th>
+				<% customer_total_lessons << 0.0 %>
+				<% customer_total_costs << 0.0 %>
+			<% end %>
+			<th>Aktionen</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% total_lessons = 0.0 %>
+		<% if @group.groupclassifications.count > 0 %>
+			<% Training.where(:groupclassification_id => @group.groupclassifications.first.id).each do |training_time| %>
+				<tr>
+					<td>
+						<%= training_time.training_start.strftime("%d.%m.%Y") %><br />
+						<%= training_time.training_start.strftime("%H:%M") + " - " + training_time.training_end.strftime("%H:%M") %>
+					</td>
+					<td>
+						<%= ((training_time.training_end - training_time.training_start)/3600).to_s + " h" %>
+						<% total_lessons += (training_time.training_end - training_time.training_start)/3600 %>
+					</td>
+					<% participated_players = 0 %>
+					<% Training.where(:training_start => training_time.training_start, :training_end => training_time.training_end).each do |training| %>
+						<% i = 0 %>
+						<% @group.groupclassifications.each do |groupclass| %>
+							<% if training.groupclassification.group.id == @group.id && training.groupclassification.customer.id == groupclass.customer.id %>
+								<% if training.participated %>
+									<td style="background:green;">anwesend</td>
+									<% customer_total_lessons[i] += (training_time.training_end - training_time.training_start)/3600 %>
+									<% participated_players += 1 %>
+								<% else %>
+									<td style="background:red;">abwesend</td>
+								<% end %>
+							<% end %>
+							<% i += 1 %>
+						<% end %>
+					<% end %>
+					<% i = 0 %>
+					<% Training.where(:training_start => training_time.training_start, :training_end => training_time.training_end).each do |training| %>
+						<% @group.groupclassifications.each do |groupclass| %>
+							<% if training.groupclassification.group.id == @group.id && training.groupclassification.customer.id == groupclass.customer.id %>
+								<% if training.participated %>
+									<% customer_total_costs[i] += ((((training_time.training_end - training_time.training_start)/3600).to_f * ((@price_per_lesson - @discount_per_lesson).to_f/ participated_players.to_f)).to_f).round(2) %>
+								<% end %>
+								<% i += 1 %>
+							<% end %>
+						<% end %>
+					<% end %>
+					<td>
+						<%= link_to "Training löschen", destroy_whole_training_path(training_time.training_start,training_time.training_end,@group.id), data: { confirm: "Wirklich löschen?" } %>
+					</td>
+				</tr>
+			<% end %>
+		<% end %>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td><b>Stunden<br />insgesamt</b></td>
+			<td><%= total_lessons.to_s + " h" %></td>
+			<% @group.groupclassifications.each_with_index do |groupclass,i| %>
+				<td><%= customer_total_lessons[i].to_s + " h" %></td>
+			<% end %>
+		</tr>
+		<tr>
+			<td>
+				<b>Rechnungsbeträge</b>
+			</td>
+			<td>
+				<%= (total_lessons * @price_per_lesson).to_s + " €" %>
+			</td>
+			<% @group.groupclassifications.each_with_index do |groupclass,i| %>
+				<td><%= customer_total_costs[i].to_s + " €" %></td>
+			<% end %>
+			<td>
+				Kontrolle:<br />
+				Spieler: <%= (customer_total_costs.sum).round(1).to_s + " €" %><br />
+				Verein: <%= (total_lessons * @discount_per_lesson).round(1).to_s + " €" %><br />
+				Summe: <%= (customer_total_costs.sum + (total_lessons * @discount_per_lesson)).round(1).to_s + " €" %>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+<h3>Training eintragen</h3>
+<%= form_tag training_index_path, method: :post do %>
+	<%= hidden_field_tag "group_id", @group.id %>
+	<fieldset>
+		<legend>Traininsdatum</legend>
+		<%= label_tag "day", "Tag"%> <%= number_field_tag "day", Date.today.day,:in => 1..31, :step => 1 %>
+		<%= label_tag "month", "Monat"%> <%= number_field_tag "month", Date.today.month,:in => 1..12, :step => 1 %>
+		<%= label_tag "year", "Jahr"%> <%= number_field_tag "year", Date.today.year,:min => 2015, :step => 1 %>
+	</fieldset>
+	<br />
+	<fieldset>
+		<legend>Trainingsdauer</legend>
+		<%= label_tag "from_hour", "Von"%> <%= number_field_tag "from_hour", DateTime.now.hour,:in => 0..23, :step => 1 %> : <%= number_field_tag "from_min", DateTime.now.min,:in => 0..59, :step => 5 %> <%= label_tag "to_hour", "bis"%> <%= number_field_tag "to_hour", DateTime.now.hour + 1,:in => 0..23, :step => 1 %> : <%= number_field_tag "to_min", DateTime.now.min,:in => 0..59, :step => 5 %>
+	</fieldset>
+	<br />
+	<table>
+		<thead>
+			<tr>
+				<th>Spieler</th>
+				<th>anwesend</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @group.groupclassifications.each do |groupclass| %>
+				<tr>
+					<td>
+						<%= label_tag "customer[" + groupclass.customer.id.to_s + "]", groupclass.customer.name %>
+					</td>
+					<td>
+						<%= check_box("customer", groupclass.customer.id.to_s) %>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+	<br />
+	<%= submit_tag "Eintragen" %>
+<% end %>
+<h3>Spieler zur Gruppe hinzufügen</h3>
+<%= form_tag add_customer_to_group_path, method: :post do %>
+	<%= hidden_field_tag "group_id", @group.id %>
+	<%= label_tag "customer_id", "Spieler" %>
+	<%= select_tag "customer_id", options_from_collection_for_select(Customer.all.order(:last_name,:first_name), "id", "name"), prompt: "Bitte auswählen" %>
+	<br /><br />
+	<%= submit_tag "Hinzufügen" %>
+<% end %>
