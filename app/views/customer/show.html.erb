@@ -4,7 +4,7 @@
 	<li>Nachname: <%= @customer.last_name %></li>
 	<h3>Trainingsgruppen</h3>
 	<% if @customer.groupclassifications.count > 0 %>
-		<ul>
+		<ul class="counting_ul">
 			<% @customer.groupclassifications.each do |groupclass| %>
 				<li><%= groupclass.group.name + " (bei " + groupclass.group.trainer.user.name + ")" %></li>
 			<% end %>

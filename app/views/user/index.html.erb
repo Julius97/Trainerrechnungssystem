@@ -1,10 +1,22 @@
 <h1>User</h1>
 <table>
-	<% @users.each do |user| %>
+	<thead>
 		<tr>
-			<td><%= link_to user.name, user_path(user.id) %></td>
-			<td><%= link_to "Bearbeiten", edit_user_path(user.id) %></td>
-			<td><%= link_to "Löschen", user_path(user.id), method: :delete, data: { confirm: "Wirklich löschen?" } %></td>
+			<th>Name</th>
+			<th>Trainer?</th>
+			<th>Aktionen</th>
 		</tr>
-	<% end %>
+	</thead>
+	<tbody>
+		<% @users.each do |user| %>
+			<tr>
+				<td><%= link_to user.name, user_path(user.id) %></td>
+				<td><%= user.trainer ? "Ja" : "Nein" %></td>
+				<td class="actions_cell">
+					<%= link_to "Bearbeiten", edit_user_path(user.id) %> | 
+					<%= link_to "Löschen", user_path(user.id), method: :delete, data: { confirm: "Wirklich löschen?" } %>
+				</td>
+			</tr>
+		<% end %>
+	</tbody>
 </table>

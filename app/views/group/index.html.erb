@@ -3,11 +3,21 @@
 	<%= link_to "Neue Gruppe erstellen", new_group_path %>
 </p>
 <table>
-	<% @groups.each do |group| %>
+	<thead>
+		<tr>
+			<th>Bezeichnung</th>
+			<th>Aktionen</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @groups.each do |group| %>
 		<tr>
 			<td><%= link_to group.name + " (" + group.trainer.user.name + ")", group_path(group.id) %></td>
-			<td><%= link_to "Bearbeiten", edit_group_path(group.id) %></td>
-			<td><%= link_to "Löschen", group_path(group.id), method: :delete, data: { confirm: "Wirklich löschen?" } %></td>
+			<td class="actions_cell">
+				<%= link_to "Bearbeiten", edit_group_path(group.id) %> | 
+				<%= link_to "Löschen", group_path(group.id), method: :delete, data: { confirm: "Wirklich löschen?" } %>
+			</td>
 		</tr>
 	<% end %>
+	</tbody>
 </table>

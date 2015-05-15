@@ -4,7 +4,7 @@
 	<li>Trainer: <%= @group.trainer.user.name %></li>
 	<h3>Spieler</h3>
 	<% if @group.groupclassifications.count > 0 %>
-		<ul>
+		<ul class="counting_ul">
 			<% @group.groupclassifications.each do |groupclass| %>
 				<li><%= link_to groupclass.customer.name, customer_path(groupclass.customer.id) %> - <%= link_to "Aus Gruppe entfernen", groupclassification_path(groupclass.id), method: :delete, data: { confirm: "Wirklich löschen?" }  %></li>
 			<% end %>
@@ -48,11 +48,11 @@
 						<% @group.groupclassifications.each do |groupclass| %>
 							<% if training.groupclassification.group.id == @group.id && training.groupclassification.customer.id == groupclass.customer.id %>
 								<% if training.participated %>
-									<td style="background:green;">anwesend</td>
+									<td class="was_participated_cell">anwesend</td>
 									<% customer_total_lessons[i] += (training_time.training_end - training_time.training_start)/3600 %>
 									<% participated_players += 1 %>
 								<% else %>
-									<td style="background:red;">abwesend</td>
+									<td class="was_not_participated_cell">abwesend</td>
 								<% end %>
 							<% end %>
 							<% i += 1 %>
@@ -86,7 +86,7 @@
 		</tr>
 		<tr>
 			<td>
-				<b>Rechnungsbeträge</b>
+				<b>Rechnungsbetrag</b>
 			</td>
 			<td>
 				<%= (total_lessons * @price_per_lesson).to_s + " €" %>
@@ -95,7 +95,7 @@
 				<td><%= customer_total_costs[i].to_s + " €" %></td>
 			<% end %>
 			<td>
-				Kontrolle:<br />
+				<b>Kontrolle:</b><br />
 				Spieler: <%= (customer_total_costs.sum).round(1).to_s + " €" %><br />
 				Verein: <%= (total_lessons * @discount_per_lesson).round(1).to_s + " €" %><br />
 				Summe: <%= (customer_total_costs.sum + (total_lessons * @discount_per_lesson)).round(1).to_s + " €" %>

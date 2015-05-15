@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Trainerrechnungssystem</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-
-<%= yield %>
-<p>
-	<%= link_to "Logout", logout_path if @current_user %>
-</p>
-</body>
+	<head>
+	  <title>Trainerrechnungssystem</title>
+	  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+	  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+	  <%= csrf_meta_tags %>
+	</head>
+	<body>
+		<header id="top_header">
+			<h1>Rechnungssystem</h1>
+		</header>
+		<section id="main_wrapper">
+			<%= yield %>
+		</section>
+		<footer id="footer_menue">
+			<ul>
+				<% if !@current_user.nil? %>
+					<% if @current_user.admin_permissions %>
+						<li><%= link_to "Trainer", user_index_path %></li>
+					<% else %>
+						<li><%= link_to "Profil", user_path(@current_user.id) %></li>
+					<% end %>
+					<li><%= link_to "Spieler", customer_index_path %></li>
+					<li><%= link_to "Preise", price_index_path %></li>
+					<li><%= link_to "Gruppen", group_index_path %></li>
+					<li><%= link_to "Logout", logout_path %></li>
+				<% end %>
+			</ul>
+		</footer>
+	</body>
 </html>
