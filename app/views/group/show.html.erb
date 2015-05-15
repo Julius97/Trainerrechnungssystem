@@ -14,8 +14,11 @@
 	<% end %>
 </ul>
 <h3>Training gegeben</h3>
-<table>
+<table id="trainings_table">
 	<thead>
+		<tr>
+			<th style="font-size:20px;" colspan="<%= (3 + @group.groupclassifications.count).to_s %>"><%= @group.name %></th>
+		</tr>
 		<tr>
 			<th>Datum</th>
 			<th>Stunden</th>
@@ -75,15 +78,15 @@
 				</tr>
 			<% end %>
 		<% end %>
-	</tbody>
-	<tfoot>
 		<tr>
-			<td><b>Stunden<br />insgesamt</b></td>
+			<td><b>Stunden<br /> insgesamt</b></td>
 			<td><%= total_lessons.to_s + " h" %></td>
 			<% @group.groupclassifications.each_with_index do |groupclass,i| %>
 				<td><%= customer_total_lessons[i].to_s + " h" %></td>
 			<% end %>
 		</tr>
+	</tbody>
+	<tfoot>
 		<tr>
 			<td>
 				<b>Rechnungsbetrag</b>
@@ -103,11 +106,12 @@
 		</tr>
 	</tfoot>
 </table>
+<input type="submit" value="Tabelle drucken" onclick="printTrainingTable();" />
 <h3>Training eintragen</h3>
 <%= form_tag training_index_path, method: :post do %>
 	<%= hidden_field_tag "group_id", @group.id %>
 	<fieldset>
-		<legend>Traininsdatum</legend>
+		<legend>Trainingsdatum</legend>
 		<%= label_tag "day", "Tag"%> <%= number_field_tag "day", Date.today.day,:in => 1..31, :step => 1 %>
 		<%= label_tag "month", "Monat"%> <%= number_field_tag "month", Date.today.month,:in => 1..12, :step => 1 %>
 		<%= label_tag "year", "Jahr"%> <%= number_field_tag "year", Date.today.year,:min => 2015, :step => 1 %>

@@ -236,3 +236,13 @@ fieldset legend{
 #footer_menue ul li a:hover{
 	background: rgb(73,155,234);
 }
+
+@media only print
+{
+    table .was_participated_cell{
+	background: #00FF00;
+}
+table .was_not_participated_cell{
+	background: #FF0000;
+}
+}

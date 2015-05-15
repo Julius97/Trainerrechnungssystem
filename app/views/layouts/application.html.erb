@@ -3,8 +3,14 @@
 	<head>
 	  <title>Trainerrechnungssystem</title>
 	  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+	  <script type="text/javascript" src="tableExport.js"></script>
+	  <script type="text/javascript" src="jquery.base64.js"></script>
+	  <script type="text/javascript" src="jspdf/libs/sprintf.js"></script>
+	  <script type="text/javascript" src="jspdf/jspdf.js"></script>
+	  <script type="text/javascript" src="jspdf/libs/base64.js"></script>
 	  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 	  <%= csrf_meta_tags %>
+	  <meta charset="ISO-8859-1">
 	</head>
 	<body>
 		<header id="top_header">
