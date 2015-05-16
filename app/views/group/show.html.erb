@@ -29,6 +29,7 @@
 				<% customer_total_lessons << 0.0 %>
 				<% customer_total_costs << 0.0 %>
 			<% end %>
+			<th>Preis / Spieler</th>
 			<th>Aktionen</th>
 		</tr>
 	</thead>
@@ -73,6 +74,9 @@
 						<% end %>
 					<% end %>
 					<td>
+						<%= (((training_time.training_end - training_time.training_start)/3600).to_f).to_s + " h * (" + ((@price_per_lesson - @discount_per_lesson).to_f).to_s + " € / " + participated_players.to_s + ")" %><br /><%= " = " +((((training_time.training_end - training_time.training_start)/3600).to_f * ((@price_per_lesson - @discount_per_lesson).to_f/ participated_players.to_f)).to_f).round(2).to_s + " €" %>
+					</td>
+					<td>
 						<%= link_to "Training löschen", destroy_whole_training_path(training_time.training_start,training_time.training_end,@group.id), data: { confirm: "Wirklich löschen?" } %>
 					</td>
 				</tr>
@@ -87,6 +91,15 @@
 		</tr>
 	</tbody>
 	<tfoot>
+		<tr>
+			<td>
+				<b>Preise</b>
+			</td>
+			<td><%= @price_per_lesson.to_s + " € / h" %></td>
+			<td style="text-align:center;" colspan="<%= @group.groupclassifications.count %>">
+				<%= "((" + @price_per_lesson.to_s + " € - " + @discount_per_lesson.to_s + " €) / anwesend Spieler) pro Stunde" %>
+			</td>
+		</tr>
 		<tr>
 			<td>
 				<b>Rechnungsbetrag</b>

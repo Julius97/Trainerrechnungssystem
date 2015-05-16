@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
   #DASHBOARD ROUTES
   resources :dashboard
+  get "date_status", to: "dashboard#date_status"
+  get "time_status", to: "dashboard#time_status"
 
   #CUSTOMER ROUTES
   resources :customer

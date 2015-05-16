@@ -9,3 +9,8 @@
 		<li>Anzahl der zu trainierenden Gruppen: <%= @user.trainer.groups.count %></li>
 	<% end %>
 </ul>
+<% if @current_user.id == @user.id %>
+	<p>
+		<%= link_to "Mein Profil bearbeiten", edit_user_path(@current_user.id) %>
+	</p>
+<% end %>

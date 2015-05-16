@@ -20,3 +20,28 @@ function printTrainingTable(){
 	window.print();
 	document.body.innerHTML = restorePage;
 }
+
+$(document).ready(function(){
+	if(window.location.pathname == "/dashboard"){
+		setInterval("updateDateTile();", 1000);
+	}
+});
+
+function updateDateTile(){
+	$.ajax({
+		type: "GET",
+      	url: "/time_status",
+      	dataType: "html",
+      	success: function(data){
+      		$("#time_status").html(data);
+      	}
+	});
+	$.ajax({
+		type: "GET",
+      	url: "/date_status",
+      	dataType: "html",
+      	success: function(data){
+      		$("#date_status").html(data);
+      	}
+	});
+}

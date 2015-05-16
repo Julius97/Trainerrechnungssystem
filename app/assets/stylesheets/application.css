@@ -266,12 +266,87 @@ fieldset legend{
 	background: rgb(73,155,234);
 }
 
+
+#tile_wrapper{
+	width: 800px;
+	margin: 0 auto;
+}
+.tile_row{
+	width: 100%;
+	height: 180px;
+	clear: both;
+}
+.tile{
+	box-shadow: none;
+	margin: 0px 10px;
+	background: rgb(73,155,234);
+	height: 180px;
+	float: left;
+	margin-bottom: 20px;
+}
+.tile h2{
+	margin-top: 20px;
+	color: white;
+	font-size: 50px;
+	font-weight: normal;
+	text-align: right;
+	margin-right: 10px;
+	line-height: 1;
+}
+.tile .big_tile_h2{
+	font-size: 100px;
+	margin-top: 5px;
+	text-align: right;
+}
+.tile h3{
+	color: white;
+	font-size: 30px;
+	font-weight: normal;
+	text-align: right;
+	margin-right: 10px;
+	line-height: 1;
+}
+.tile a{
+	display: block;
+	width: 100%;
+	height: 180px;
+}
+.tile:hover{
+	box-shadow: 0px 0px 2px 2px gray;
+}
+.tile .img_wrapper{
+	width: 100%;
+	height: 160px;
+}
+.tile .img_wrapper h2{
+	float: left;
+	margin-left: 20px;
+	margin-top: 60px;
+}
+.tile .img_wrapper img{
+	float: right;
+	margin-top: 10px;
+	margin-right: 10px;
+}
+.tile_span_1{
+	width: 180px;
+}
+.tile_span_2{
+	width: 380px;
+}
+.tile_span_3{
+	width: 580px;
+}
+.tile_span_4{
+	width: 780px;
+}
+
 @media only print
 {
     table .was_participated_cell{
-	background: #00FF00;
-}
-table .was_not_participated_cell{
-	background: #FF0000;
-}
+		background: #00FF00;
+	}
+	table .was_not_participated_cell{
+		background: #FF0000;
+	}
 }
