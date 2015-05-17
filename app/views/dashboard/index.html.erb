@@ -1,53 +1,118 @@
 <h1>Dashboard</h1>
 <div id="tile_wrapper">
-	<div class="tile_row">
-		<div class="tile tile_span_2">
-			<% if @current_user.admin_permissions %>
-			<a href="/user">
-			<% else %>
-			<a href="/user/<%= @current_user.id %>">
-			<% end %>
-				<div class="img_wrapper">
-					<% if @current_user.admin_permissions %>
-						<h2>Trainer</h2>
-					<% else %>
-						<h2>Profil</h2>
-					<% end %>
-					<%= image_tag("profil_pic.jpeg", height: "160", width: "160") %>
+	<% if !mobile_device? %>
+		<div class="tile_row">
+			<div class="tile tile_span_2">
+				<% if @current_user.admin_permissions %>
+				<a href="/user">
+				<% else %>
+				<a href="/user/<%= @current_user.id %>">
+				<% end %>
+					<div class="img_wrapper">
+						<% if @current_user.admin_permissions %>
+							<h2>Trainer</h2>
+						<% else %>
+							<h2>Profil</h2>
+						<% end %>
+						<%= image_tag("profil_pic.jpeg", height: "160", width: "160") %>
+					</div>
+				</a>
+			</div>
+			<div class="tile tile_span_2">
+				<a href="/customer">
+					<div class="img_wrapper">
+						<h2>Spieler</h2>
+						<%= image_tag("player_picto.png", height: "160", width: "160") %>
+					</div>
+				</a>
+			</div>
+		</div>
+		<div class="tile_row">
+			<div class="tile tile_span_1">
+				<div class="inner_tile_wrapper">
+					<h2 id="time_status" style="margin-top:40px;">
+						<%= DateTime.now.strftime("%H:%M") %>
+					</h2>
+					<h3 id="date_status">
+						<%= DateTime.now.strftime("%a, %B %y") %>
+					</h3>
 				</div>
-			</a>
+			</div>
+			<div class="tile tile_span_1">
+				<a href="/price">
+					<div class="inner_tile_wrapper">
+						<h2>Preise</h2>
+						<h2 class="big_tile_h2">€</h2>
+					</div>
+				</a>
+			</div>
+			<div class="tile tile_span_2">
+				<a href="/group">
+					<div class="img_wrapper">
+						<h2>Gruppen</h2>
+						<%= image_tag("group_picto.png", height: "140", width: "140") %>
+					</div>
+				</a>
+			</div>
 		</div>
-		<div class="tile tile_span_2">
-			<a href="/customer">
-				<div class="img_wrapper">
-					<h2>Spieler</h2>
-					<%= image_tag("player_picto.png", height: "160", width: "160") %>
+	<% else %>
+		<div class="tile_row">
+			<div class="tile tile_span_4">
+				<% if @current_user.admin_permissions %>
+				<a href="/user">
+				<% else %>
+				<a href="/user/<%= @current_user.id %>">
+				<% end %>
+					<div class="img_wrapper">
+						<% if @current_user.admin_permissions %>
+							<h2>Trainer</h2>
+						<% else %>
+							<h2>Profil</h2>
+						<% end %>
+						<%= image_tag("profil_pic.jpeg", height: "100", width: "100") %>
+					</div>
+				</a>
+			</div>
+		</div>
+		<div class="tile_row">
+			<div class="tile tile_span_4">
+				<a href="/customer">
+					<div class="img_wrapper">
+						<h2>Spieler</h2>
+						<%= image_tag("player_picto.png", height: "100", width: "100") %>
+					</div>
+				</a>
+			</div>
+		</div>
+		<div class="tile_row">
+			<div class="tile tile_span_2">
+				<div class="inner_tile_wrapper">
+					<h2 id="time_status">
+						<%= DateTime.now.strftime("%H:%M") %>
+					</h2>
+					<h3 id="date_status">
+						<%= DateTime.now.strftime("%a, %B %y") %>
+					</h3>
 				</div>
-			</a>
+			</div>
+			<div class="tile tile_span_2">
+				<a href="/price">
+					<div class="inner_tile_wrapper">
+						<h2>Preise</h2>
+						<h2 class="big_tile_h2">€</h2>
+					</div>
+				</a>
+			</div>
 		</div>
-	</div>
-	<div class="tile_row">
-		<div class="tile tile_span_1">
-			<h2 id="time_status" style="margin-top:40px;">
-				<%= DateTime.now.strftime("%H:%M") %>
-			</h2>
-			<h3 id="date_status">
-				<%= DateTime.now.strftime("%a, %B %y") %>
-			</h3>
+		<div class="tile_row">
+			<div class="tile tile_span_4">
+				<a href="/group">
+					<div class="img_wrapper">
+						<h2>Gruppen</h2>
+						<%= image_tag("group_picto.png", height: "100", width: "100") %>
+					</div>
+				</a>
+			</div>
 		</div>
-		<div class="tile tile_span_1">
-			<a href="/price">
-				<h2>Preise</h2>
-				<h2 class="big_tile_h2">€</h2>
-			</a>
-		</div>
-		<div class="tile tile_span_2">
-			<a href="/group">
-				<div class="img_wrapper">
-					<h2>Gruppen</h2>
-					<%= image_tag("group_picto.png", height: "140", width: "140") %>
-				</div>
-			</a>
-		</div>
-	</div>
+	<% end %>
 </div>

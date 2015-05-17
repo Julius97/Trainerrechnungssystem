@@ -1,8 +1,3 @@
-/*
- *= require_tree .
- *= require_self
- */
-
 /* CSS-Reset of browser-predefined attributes and values */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -20,7 +15,7 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-size: 100%;
+	font-size: 20px;
 	font-family: Arial;
 	vertical-align: baseline;
 	line-height: 1.5;
@@ -46,12 +41,13 @@ q:before, q:after {
 }
 
 h1{
-	font-size: 35px;
+	font-size: 30px;
 	font-weight: bold;
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 	color: rgba(32,124,229,1);
 	text-align: center;
 	font-family: Courier;
+	line-height: 1;
 }
 a{
 	color: rgb(73,155,234);
@@ -61,7 +57,7 @@ a:hover{
 	color: rgba(32,124,229,1);
 }
 h1 a{
-	font-size: 35px;
+	font-size: 30px;
 	font-weight: bold;
 	margin-bottom: 40px;
 	color: rgba(32,124,229,1);
@@ -91,18 +87,24 @@ textarea{
 textarea:focus{
 	border: 1px solid rgba(32,124,229,1);
 }
+input{
+	font-size: 20px;
+}
 input[type="submit"]{
 	background: rgb(73,155,234);
 	color: white;
-	font-size: 16px;
 	border: none;
-	padding: 5px 15px;
+	padding: 0 15px;
+	width: 100%;
+	height: 35px;
 }
 input[type="submit"]:hover{
 	background: rgba(32,124,229,1);
 }
 input[type="text"]{
 	border: 1px solid #cdc9c9;
+	width: 100%;
+	height: 30px;
 }
 input[type="text"]:focus{
 	border: 1px solid rgba(32,124,229,1);
@@ -112,6 +114,8 @@ input[type="text"]:hover{
 }
 input[type="password"]{
 	border: 1px solid #cdc9c9;
+	width: 100%;
+	height: 30px;
 }
 input[type="password"]:focus{
 	border: 1px solid rgba(32,124,229,1);
@@ -119,17 +123,21 @@ input[type="password"]:focus{
 input[type="password"]:hover{
 	border: 1px solid rgba(32,124,229,1);
 }
+input[type="number"]{
+	width: 42%;
+}
 table { 
     border-spacing: 1px;
     border-collapse: separate;
+    margin: 20px 0px;
 }
 table th{
-	padding: 5px 20px;
+	padding: 5px;
 	text-align: center;
 	vertical-align: middle;
 }
 table td{
-	padding: 5px 20px;
+	padding: 5px;
 	vertical-align: middle;
 }
 table .actions_cell{
@@ -142,9 +150,9 @@ table .was_not_participated_cell{
 	background: #FF0000;
 }
 h3{
-	margin-top: 20px;
-	margin-bottom: 5px;
-	font-size: 20px;
+	margin-top: 40px;
+	margin-bottom: 10px;
+	font-size: 25px;
 }
 .counting_ul{
 	margin-left: 30px;
@@ -154,19 +162,15 @@ h3{
 }
 fieldset{
 	border: 1px solid #cdc9c9;
-	padding: 20px;
+	padding: 10px;
+	width: auto;
 }
 fieldset legend{
 	font-weight: bold;
 }
 
 
-#main_wrapper{
-	margin: 0 auto;
-	margin: 70px 50px;
-	margin-bottom: 90px;
-	width: auto;
-}
+
 #top_header{
 	background: rgb(73,155,234); /* Old browsers */
 	background: -moz-linear-gradient(top, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%); /* FF3.6+ */
@@ -189,7 +193,7 @@ fieldset legend{
 	height: 50px;
 	width: 54px;
 	float: left;
-	margin-left: 50px;
+	margin-left: 10px;
 	background: rgb(73,155,234); /* Old browsers */
 	background: -moz-linear-gradient(top, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(73,155,234,1)), color-stop(100%,rgba(32,124,229,1))); /* Chrome,Safari4+ */
@@ -213,11 +217,18 @@ fieldset legend{
 }
 #top_header h1{
 	color: white;
-	margin-top: 5px;
+	margin-top: 12px;
 	font-family: Courier;
 	text-shadow: 2px 2px 2px black;
 	line-height: 1;
 	text-align: center;
+	font-size: 25px;
+}
+#main_wrapper{
+	margin: 0 auto;
+	margin: 70px 20px;
+	margin-bottom: 90px;
+	width: auto;
 }
 #footer_menue{
 	background: rgb(73,155,234); /* Old browsers */
@@ -238,16 +249,16 @@ fieldset legend{
 #footer_menue ul{
 	margin: 0;
 	padding: 0;
-	margin-left: 50px;
+	margin-right: 10px;
 }
 #footer_menue ul li{
-	float: left;
+	float: right;
 	width: auto;
-	border-right: 1px solid rgb(73,155,234);
+	border-left: 1px solid rgb(73,155,234);
 	display: block;
 	height: 50px;
 }
-#footer_menue ul li:first-child{
+#footer_menue ul li:last-child{
 	border-right: 1px solid rgb(73,155,234);
 }
 #footer_menue ul li a{
@@ -257,7 +268,7 @@ fieldset legend{
 	font-family: Courier;
 	text-align: center;
 	display: block;
-	padding: 3px 25px;
+	padding: 3px 10px;
 	width: auto;
 	height: 100%;
 	text-decoration: none;
@@ -268,69 +279,75 @@ fieldset legend{
 
 
 #tile_wrapper{
-	width: 800px;
+	width: 100%;
 	margin: 0 auto;
 }
 .tile_row{
 	width: 100%;
-	height: 180px;
+	height: 120px;
 	clear: both;
 }
 .tile{
 	box-shadow: none;
-	margin: 0px 10px;
+	margin: 5px 1%;
 	background: rgb(73,155,234);
-	height: 180px;
+	height: 120px;
 	float: left;
-	margin-bottom: 20px;
 }
 .tile h2{
-	margin-top: 20px;
+	margin-top: 10px;
 	color: white;
-	font-size: 50px;
+	font-size: 35px;
 	font-weight: normal;
 	text-align: right;
 	margin-right: 10px;
 	line-height: 1;
-}
-.tile .inner_tile_wrapper{
-	width: 100%;
-	height: 180px;
-}
-.tile .inner_tile_wrapper h2{
-	float: right;
-	margin-left: 20px;
-	margin-top: 20px;
-}
-.tile .inner_tile_wrapper .big_tile_h2{
-	font-size: 100px;
-	margin-top: 5px;
-	text-align: right;
 }
 .tile h3{
 	color: white;
-	font-size: 30px;
+	font-size: 20px;
 	font-weight: normal;
 	text-align: right;
 	margin-right: 10px;
 	line-height: 1;
+	margin-top: 20px;
+}
+.tile .inner_tile_wrapper{
+	width: 100%;
+	height: 120px;
+}
+.tile .inner_tile_wrapper h2{
+	float: right;
+	margin-top: 10px;
+	width: 100%;
+}
+.tile .inner_tile_wrapper .big_tile_h2{
+	font-size: 60px;
+	margin-top: 5px;
+	text-align: right;
+	font-weight: normal;
+	width: 100%;
+}
+.tile .inner_tile_wrapper h3{
+	width: 100%;
+	float: right;
 }
 .tile a{
 	display: block;
 	width: 100%;
-	height: 180px;
+	height: 120px;
 }
 .tile a:hover{
 	box-shadow: 0px 0px 2px 2px gray;
 }
 .tile .img_wrapper{
 	width: 100%;
-	height: 160px;
+	height: 100px;
 }
 .tile .img_wrapper h2{
 	float: left;
 	margin-left: 20px;
-	margin-top: 60px;
+	margin-top: 40px;
 }
 .tile .img_wrapper img{
 	float: right;
@@ -338,17 +355,22 @@ fieldset legend{
 	margin-right: 10px;
 }
 .tile_span_1{
-	width: 180px;
+	width: 23%;
 }
 .tile_span_2{
-	width: 380px;
+	width: 48%;
 }
 .tile_span_3{
-	width: 580px;
+	width: 73%;
 }
 .tile_span_4{
-	width: 780px;
+	width: 98%;
 }
+.scroll_vertical_enable{
+	overflow: auto;
+	width: 100%;
+}
+
 
 @media only print
 {

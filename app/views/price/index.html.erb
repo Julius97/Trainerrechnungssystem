@@ -2,25 +2,46 @@
 <p>
 	<%= link_to "Neuen Preis erstellen", new_price_path %>
 </p>
-<table>
-	<thead>
-		<tr>
-			<th>Trainer</th>
-			<th>Preis / h</th>
-			<th>Zuschuss / h</th>
-			<th>Aktionen</th>
-		</tr>
-	</thead>
-	<% @prices.each do |price| %>
-		<tr>
-			<td><%= price.trainer.user.name %></td>
-			<td><%= price.price_per_lesson.to_s + " €" %></td>
-			<td><%= price.discount_per_lesson.to_s + " €" %></td>
-			<td class="actions_cell">
-				<%= link_to "Anzeigen", price_path(price.id) %> | 
-				<%= link_to "Bearbeiten", edit_price_path(price.id) %> | 
-				<%= link_to "Löschen", price_path(price.id), method: :delete, data: { confirm: "Wirklich löschen?" } %>
-			</td>
-		</tr>
-	<% end %>
-</table>
+<% if !mobile_device? %>
+	<table>
+		<thead>
+			<tr>
+				<th>Trainer</th>
+				<th>Preis / h</th>
+				<th>Zuschuss / h</th>
+				<th>Aktionen</th>
+			</tr>
+		</thead>
+		<% @prices.each do |price| %>
+			<tr>
+				<td><%= price.trainer.user.name %></td>
+				<td><%= price.price_per_lesson.to_s + " €" %></td>
+				<td><%= price.discount_per_lesson.to_s + " €" %></td>
+				<td class="actions_cell">
+					<%= link_to "Anzeigen", price_path(price.id) %> | 
+					<%= link_to "Bearbeiten", edit_price_path(price.id) %> | 
+					<%= link_to "Löschen", price_path(price.id), method: :delete, data: { confirm: "Wirklich löschen?" } %>
+				</td>
+			</tr>
+		<% end %>
+	</table>
+<% else %>
+	<table>
+		<thead>
+			<tr>
+				<th>Trainer</th>
+				<th>Aktionen</th>
+			</tr>
+		</thead>
+		<% @prices.each do |price| %>
+			<tr>
+				<td><%= price.trainer.user.name %></td>
+				<td class="actions_cell">
+					<%= link_to "Anzeigen", price_path(price.id) %> | 
+					<%= link_to "Bearbeiten", edit_price_path(price.id) %> | 
+					<%= link_to "Löschen", price_path(price.id), method: :delete, data: { confirm: "Wirklich löschen?" } %>
+				</td>
+			</tr>
+		<% end %>
+	</table>
+<% end %>

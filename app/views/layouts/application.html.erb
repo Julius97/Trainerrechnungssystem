@@ -2,7 +2,11 @@
 <html>
 	<head>
 	  <title>Trainerrechnungssystem</title>
-	  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+	  <% if !mobile_device? %>
+	  	<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+	  <% else %>
+	  	<%= stylesheet_link_tag 'mobile', media: 'all' %>
+	  <% end %>
 	  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 	  <%= csrf_meta_tags %>
 	  <meta charset="ISO-8859-1">
@@ -24,14 +28,6 @@
 		<footer id="footer_menue">
 			<ul>
 				<% if !@current_user.nil? %>
-					<% if @current_user.admin_permissions %>
-						<li><%= link_to "Trainer", user_index_path %></li>
-					<% else %>
-						<li><%= link_to "Profil", user_path(@current_user.id) %></li>
-					<% end %>
-					<li><%= link_to "Spieler", customer_index_path %></li>
-					<li><%= link_to "Preise", price_index_path %></li>
-					<li><%= link_to "Gruppen", group_index_path %></li>
 					<li><%= link_to "Logout", logout_path %></li>
 				<% end %>
 			</ul>

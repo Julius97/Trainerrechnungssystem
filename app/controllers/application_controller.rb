@@ -4,7 +4,13 @@ class ApplicationController < ActionController::Base
 	# For APIs, you may want to use :null_session instead.
 	# protect_from_forgery with: :exception
 
+	helper_method :mobile_device?
+
 	private
+
+		def mobile_device?
+			request.user_agent =~ /Mobile|webOS|Android|PlayBook|Kindle|Kindle Fire|Windows Phone/
+		end
 
 		def check_session(needs_login_check,needs_admin_permissions)
 	  		if needs_login_check
