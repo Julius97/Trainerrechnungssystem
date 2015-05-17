@@ -229,9 +229,9 @@ fieldset legend{
 }
 #main_wrapper{
 	margin: 0 auto;
-	margin: 70px 20px;
+	width: 90%;
+	margin-top: 70px;
 	margin-bottom: 90px;
-	width: auto;
 }
 #footer_menue{
 	background: rgb(73,155,234); /* Old browsers */

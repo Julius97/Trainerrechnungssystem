@@ -177,8 +177,8 @@ fieldset legend{
 
 #main_wrapper{
 	margin: 0 auto;
+	margin: 70px 50px;
 	margin-bottom: 90px;
-	width: 90%;
 }
 #top_header{
 	background: rgb(73,155,234); /* Old browsers */
