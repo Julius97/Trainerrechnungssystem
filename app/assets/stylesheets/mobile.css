@@ -90,6 +90,8 @@ textarea:focus{
 }
 input{
 	font-size: 20px;
+	-webkit-appearance:none;
+	-webkit-border-radius: 0px;
 }
 input[type="submit"]{
 	background: rgb(73,155,234);
