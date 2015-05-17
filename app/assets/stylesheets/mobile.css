@@ -28,6 +28,14 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	width: 100%;
+	height: 100%;
+}
+#main_wrapper{
+	margin: 0 auto;
+	margin-top: 70px;
+	width: 95%;
+	margin-bottom: 90px;
 }
 ol, ul {
 	list-style: none;
@@ -92,6 +100,10 @@ input{
 	font-size: 20px;
 	-webkit-appearance:none;
 	-webkit-border-radius: 0px;
+	outline: none;
+	line-height: 30px;
+	vertical-align: middle;
+	display: inline;
 }
 input[type="submit"]{
 	background: rgb(73,155,234);
@@ -108,6 +120,9 @@ input[type="text"]{
 	border: 1px solid #cdc9c9;
 	width: 100%;
 	height: 30px;
+	padding-left: 1%;
+	padding-right: 1%;
+	max-width: 97%;
 }
 input[type="text"]:focus{
 	border: 1px solid rgba(32,124,229,1);
@@ -119,6 +134,9 @@ input[type="password"]{
 	border: 1px solid #cdc9c9;
 	width: 100%;
 	height: 30px;
+	padding-left: 1%;
+	padding-right: 1%;
+	max-width: 97%;
 }
 input[type="password"]:focus{
 	border: 1px solid rgba(32,124,229,1);
@@ -227,11 +245,6 @@ fieldset legend{
 	text-align: center;
 	font-size: 25px;
 }
-#main_wrapper{
-	margin: 0 auto;
-	margin: 70px 20px;
-	margin-bottom: 90px;
-}
 #footer_menue{
 	background: rgb(73,155,234); /* Old browsers */
 	background: -moz-linear-gradient(top, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%); /* FF3.6+ */
@@ -297,7 +310,6 @@ fieldset legend{
 	float: left;
 }
 .tile h2{
-	margin-top: 10px;
 	color: white;
 	font-size: 35px;
 	font-weight: normal;
@@ -319,16 +331,16 @@ fieldset legend{
 	height: 120px;
 }
 .tile .inner_tile_wrapper h2{
-	float: right;
-	margin-top: 10px;
-	width: 100%;
+	text-align: right;
+	padding-top: 10px;
+	width: auto;
 }
 .tile .inner_tile_wrapper .big_tile_h2{
 	font-size: 60px;
 	margin-top: 5px;
 	text-align: right;
 	font-weight: normal;
-	width: 100%;
+	width: auto;
 }
 .tile .inner_tile_wrapper h3{
 	width: 100%;
