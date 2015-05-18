@@ -104,6 +104,15 @@ input[type="submit"]{
 	width: auto;
 	height: 35px;
 }
+input[type="checkbox"]{
+	display: inline-block;
+	vertical-align:middle;
+	-webkit-transform: scale(1,1);
+	-moz-transform: scale(1,1);
+	margin: 0;
+	padding: 0;
+	margin-left: 20px;
+}
 input[type="submit"]:hover{
 	background: rgb(32,124,229);
 }
