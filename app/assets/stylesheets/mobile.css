@@ -109,9 +109,8 @@ input[type="submit"]{
 	background: rgb(73,155,234);
 	color: white;
 	border: none;
-	padding: 0 15px;
 	width: 100%;
-	height: 35px;
+	height: 45px;
 }
 input[type="submit"]:hover{
 	background: rgba(32,124,229,1);
