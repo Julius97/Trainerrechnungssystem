@@ -105,6 +105,15 @@ input{
 	vertical-align: middle;
 	display: inline;
 }
+input[type="checkbox"]{
+	display: inline-block;
+	vertical-align:middle;
+	-webkit-transform: scale(2,2);
+	-moz-transform: scale(2,2);
+	margin: 0;
+	padding: 0;
+	margin-left: 20px;
+}
 input[type="submit"]{
 	background: rgb(73,155,234);
 	color: white;
