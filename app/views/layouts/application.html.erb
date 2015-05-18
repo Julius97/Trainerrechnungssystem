@@ -11,7 +11,9 @@
 	  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 	  <%= csrf_meta_tags %>
 	  <meta charset="ISO-8859-1">
-	  <% if !@current_user.nil? %>
+	</head>
+	<body>
+		<% if !@current_user.nil? %>
 		  <style type="text/css">
 		  	@media screen and (max-width: 320px)
 			{
@@ -23,9 +25,7 @@
 			    }
 			}
 		  </style>
-	  <% end %>
-	</head>
-	<body>
+	  	<% end %>
 		<header id="top_header">
 			<% if !@current_user.nil? && !mobile_device? %>
 				<div id="logo_wrapper">
