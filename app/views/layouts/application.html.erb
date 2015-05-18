@@ -11,10 +11,23 @@
 	  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 	  <%= csrf_meta_tags %>
 	  <meta charset="ISO-8859-1">
+	  <% if !@current_user.nil? %>
+		  <style type="text/css">
+		  	@media screen and (max-width: 320px)
+			{
+			    #top_header{
+			    	display: none;
+			    }
+			    #main_wrapper{
+			    	margin-top: 10px;
+			    }
+			}
+		  </style>
+	  <% end %>
 	</head>
 	<body>
 		<header id="top_header">
-			<% if !@current_user.nil? %>
+			<% if !@current_user.nil? && !mobile_device? %>
 				<div id="logo_wrapper">
 					<a href="/dashboard">
 						<%= image_tag("home_icon.png", height: "44", width: "44", title: "Dashboard") %>
@@ -26,24 +39,40 @@
 		<section id="main_wrapper">
 			<%= yield %>
 		</section>
-		<footer id="footer_menue">
-			<ul>
-				<% if !@current_user.nil? %>
-					<% if !mobile_device? %>
-						<% if @current_user.admin_permissions %>
-							<li><%= link_to "Trainer", user_index_path %></li>
+		<% if !@current_user.nil? || !mobile_device? %>
+			<footer id="footer_menue">
+				<ul>
+					<% if !@current_user.nil? %>
+						<% if !mobile_device? %>
+							<% if @current_user.admin_permissions %>
+								<li><%= link_to "Trainer", user_index_path %></li>
+							<% else %>
+								<li><%= link_to "Profil", user_path(@current_user.id) %></li>
+							<% end %>
+							<li><%= link_to "Spieler", customer_index_path %></li>
+							<li><%= link_to "Preise", price_index_path %></li>
+							<li><%= link_to "Gruppen", group_index_path %></li>
+							<li><%= link_to "Logout", logout_path %></li>
 						<% else %>
-							<li><%= link_to "Profil", user_path(@current_user.id) %></li>
+							<li>
+								<a href="<%= request.headers["Referer"] %>">
+									<%= image_tag("return_picto.png", height: "44", width: "44", title: "Back") %>
+								</a>
+							</li>
+							<li>
+								<a href="/dashboard">
+									<%= image_tag("home_icon.png", height: "44", width: "44", title: "Dashboard") %>
+								</a>
+							</li>
+							<li>
+								<a href="/logout">
+									<%= image_tag("logout_picto.png", height: "44", width: "44", title: "Logout") %>
+								</a>
+							</li>
 						<% end %>
-						<li><%= link_to "Spieler", customer_index_path %></li>
-						<li><%= link_to "Preise", price_index_path %></li>
-						<li><%= link_to "Gruppen", group_index_path %></li>
-						<li><%= link_to "Logout", logout_path %></li>
-					<% else %>
-						<li><%= link_to "Logout", logout_path %></li>
 					<% end %>
-				<% end %>
-			</ul>
-		</footer>
+				</ul>
+			</footer>
+		<% end %>
 	</body>
 </html>
