@@ -6,7 +6,13 @@
 	<li>Administrator: <%= @user.admin_permissions ? "Ja" : "Nein" %></li>
 	<li>Trainer: <%= @user.trainer.nil? ? "Nein" : "Ja" %></li>
 	<% if !@user.trainer.nil? %>
+		<li>Lohn pro Stunde: <%= @user.trainer.price.price_per_lesson.to_s + " €" %></li>
 		<li>Anzahl der zu trainierenden Gruppen: <%= @user.trainer.groups.count %></li>
+		<ul class="counting_ul">
+			<% @user.trainer.groups.each do |group| %>
+				<li><%= link_to group.name, group_path(group.id) %> <%= "(" + group.groupclassifications.count.to_s + " Spieler)" %></li>
+			<% end %>
+		</ul>
 	<% end %>
 </ul>
 <% if @current_user.id == @user.id %>
