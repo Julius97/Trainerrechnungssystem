@@ -36,6 +36,16 @@
 			<% end %>
 			<h1>Rechnungssystem</h1>
 		</header>
+		<% if !flash[:error].blank? %>
+			<section id="error_wrapper" class="status_messages_wrapper">
+				<p><%= flash[:error] %></p>
+			</section>
+		<% end %>
+		<% if !flash[:notice].blank? %>
+			<section id="success_wrapper" class="status_messages_wrapper">
+				<p><%= flash[:notice] %></p>
+			</section>
+		<% end %>
 		<section id="main_wrapper">
 			<%= yield %>
 		</section>

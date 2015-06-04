@@ -55,6 +55,7 @@ class PriceController < ApplicationController
 				if params[:price_per_lesson].to_i > 0 && params[:discount_per_lesson].to_i >= 0
 					if params[:price_per_lesson].to_i >= params[:discount_per_lesson].to_i
 						Price.find_by_id(params[:price_id].to_i).update_attributes :discount_per_lesson => params[:discount_per_lesson].to_i, :price_per_lesson => params[:price_per_lesson].to_i
+						flash[:notice] = "Preis von " + Price.find_by_id(params[:price_id].to_i).trainer.user.name + " erfolgreich bearbeitet"
 					end
 				end
 			end

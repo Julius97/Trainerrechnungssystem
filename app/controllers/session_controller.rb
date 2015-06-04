@@ -16,6 +16,7 @@ class SessionController < ApplicationController
 				redirect_to login_path
 			end
 		else
+			flash[:error] = "E-Mail und Passwort zum Login angeben"
 			redirect_to login_path
 		end
 	end
