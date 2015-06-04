@@ -25,6 +25,22 @@ $(document).ready(function(){
 	if(window.location.pathname == "/dashboard"){
 		setInterval("updateDateTile();", 1000);
 	}
+
+	if($(".status_messages_wrapper").length > 0){
+		$("#main_wrapper").animate({
+			marginTop: "120px"
+		},500);
+		$(".status_messages_wrapper").animate({
+			height: "50px"
+		},500);
+
+		$(".status_messages_wrapper img").click(function(){
+			$("#main_wrapper").animate({
+				marginTop: "70px"
+			},500);
+			$(".status_messages_wrapper").slideToggle(500);
+		});
+	}
 });
 
 function updateDateTile(){

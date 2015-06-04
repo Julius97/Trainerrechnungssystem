@@ -6,7 +6,11 @@ class GroupclassificationController < ApplicationController
 		if params[:id]
 			if Groupclassification.find_by_id params[:id]
 				Groupclassification.find_by_id(params[:id]).destroy
+			else
+				flash[:error] = "Fehler im System: Gruppenzugehörigkeit des Spielers konnte nicht gefunden werden"
 			end
+		else
+			flash[:error] = "Fehler im System: Gruppenzugehörigkeit des Spielers konnte nicht gefunden werden"
 		end
 		redirect_to group_index_path
 	end

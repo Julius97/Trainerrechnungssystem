@@ -19,9 +19,16 @@ class TrainingController < ApplicationController
 								end
 							end
 						end
+						flash[:notice] = "Training erfolgreich gespeichert"
+					else
+						flash[:error] = "Fehler im System: Gruppe konnte nicht gefunden werden"
 					end
+				else
+					flash[:error] = "Trainingsende muss in Vergangenheit liegen"
 				end
 			end
+		else
+			flash[:error] = "Bitte alle Felder ausfüllen"
 		end
 		if Group.find_by_id params[:group_id]
 			redirect_to group_path params[:group_id]
@@ -32,10 +39,15 @@ class TrainingController < ApplicationController
 
 	def destroy
 		if params[:id]
-			if Training.Training.find_by_id params[:id]
+			if Training.find_by_id params[:id]
 				training = Training.find_by_id params[:id]
 				training.destroy
+				flash[:notice] = "Training erfolgreich gelöscht"
+			else
+				flash[:error] = "Fehler im System: Training konnte nicht gefunden werden"
 			end
+		else
+			flash[:error] = "Fehler im System: Training konnte nicht gefunden werden"
 		end
 		if training
 			redirect_to group_path training.groupclass.group.id
@@ -52,7 +64,12 @@ class TrainingController < ApplicationController
 						training.destroy
 					end
 				end
+				flash[:notice] = "Gesamtes Training erfolgreich gelöscht"
+			else
+				flash[:error] = "Fehler im System: Gruppe konnte nicht gefunden werden, Training konnte nicht erkannt werden"
 			end
+		else
+			flash[:error] = "Fehler im System: Training konnte nicht gefunden werden"
 		end
 		if Group.find_by_id params[:group_id]
 			redirect_to group_path params[:group_id]

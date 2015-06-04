@@ -6,12 +6,16 @@ class UserController < ApplicationController
 		if @current_user.admin_permissions
 			@users = User.all.order(:last_name, :first_name)
 		else
+			flash[:error] = "Sie verfügen über keine Berechtigung, die Benutzerliste einzusehen"
 			redirect_to dashboard_index_path
 		end
 	end
 
 	def new
-		redirect_to dashboard_index_path if @current_user && !@current_user.admin_permissions
+		if @current_user && !@current_user.admin_permissions
+			flash[:error] = "Sie haben nur auf die Registrierungsseite Zugriff, wenn sie ausgeloggt sind"
+			redirect_to dashboard_index_path
+		end
 	end
 
 	def create
@@ -24,15 +28,28 @@ class UserController < ApplicationController
 				    		if !User.find_by_mail_address(params[:mail])
 				    			if User.where(:last_name => params[:last_name], :first_name => params[:first_name]).count == 0
 									user = User.create :password => params[:password], :last_name => params[:last_name], :first_name => params[:first_name], :admin_permissions => false, :mail_address => params[:mail]
+									flash[:notice] = "Nutzer " + user.name + " wurde erfolgreich gespeichert"
 									if !params[:is_trainer].blank?
 										Trainer.create :user_id => user.id
 									end
 									successful_registration = true
+								else
+									flash[:error] = "Nutzer " + User.where(:last_name => params[:last_name], :first_name => params[:first_name]).first.name + " existiert bereits"
 								end
+							else
+								flash[:error] = "Mailadresse wird bereits von einem User genutzt"
 							end
+						else
+							flash[:error] = "Passwörter stimmen nicht überein"
 						end
+					else
+						flash[:error] = "Mailadressen stimmen nicht überein"
 					end
+				else
+					flash[:error] = "Bitte alle Felder ausfüllen"
 				end
+			else
+				flash[:error] = "Bitte alle Felder ausfüllen"
 			end
 			if successful_registration
 				redirect_to login_path
@@ -50,12 +67,15 @@ class UserController < ApplicationController
 				if User.find_by_id(params[:id]).id == @current_user.id || @current_user.admin_permissions
 					@user = User.find_by_id params[:id]
 				else
+					flash[:error] = "Fremdes Nutzerprofil angefordert. Sie verfügen über keine Berechtigung für diese Aktion"
 					redirect_to user_index_path
 				end
 			else
+				flash[:error] = "Fehler im System: Nutzer konnte nicht gefunden werden"
 				redirect_to user_index_path
 			end
 		else
+			flash[:error] = "Fehler im System: Nutzer konnte nicht gefunden werden"
 			redirect_to user_index_path
 		end
 	end
@@ -66,12 +86,15 @@ class UserController < ApplicationController
 				if User.find_by_id(params[:id]).id == @current_user.id || @current_user.admin_permissions
 					@user = User.find_by_id params[:id]
 				else
+					flash[:error] = "Fremdes Nutzerprofil angefordert. Sie verfügen über keine Berechtigung für diese Aktion"
 					redirect_to user_index_path
 				end
 			else	
+				flash[:error] = "Fehler im System: Nutzer konnte nicht gefunden werden"
 				redirect_to user_index_path
 			end
 		else
+			flash[:error] = "Fehler im System: Nutzer konnte nicht gefunden werden"
 			redirect_to user_index_path
 		end
 	end
@@ -90,8 +113,15 @@ class UserController < ApplicationController
 					elsif !User.find_by_id(params[:id]).trainer && is_trainer
 						Trainer.create :user_id => params[:user_id].to_i
 					end
+					flash[:notice] = "Nutzer " + User.find_by_id(params[:id]).name + "erfolgreich bearbeitet"
+				else
+					flash[:error] = "Fremdes Nutzerprofil versucht zu bearbeiten. Sie verfügen über keine Berechtigung für diese Aktion"
 				end
+			else
+				flash[:error] = "Fehler im System: Nutzer konnte nicht gefunden werden"
 			end
+		else
+			flash[:error] = "Bitte alle Felder ausfüllen"
 		end
 		redirect_to user_index_path
 	end
@@ -100,15 +130,19 @@ class UserController < ApplicationController
 		if params[:id]
 			if User.find_by_id params[:id]
 				if User.find_by_id(params[:id]).id == @current_user.id || @current_user.admin_permissions
+					flash[:notice] = "Nutzer " + User.find_by_id(params[:id]).name + "erfolgreich gelöscht"
 					User.find_by_id(params[:id]).destroy
 					redirect_to user_index_path
 				else
+					flash[:error] = "Fremdes Nutzerprofil versucht zu löschen. Sie verfügen über keine Berechtigung für diese Aktion"
 					redirect_to user_index_path
 				end
 			else
+				flash[:error] = "Fehler im System: Nutzer konnte nicht gefunden werden"
 				redirect_to user_index_path
 			end
 		else
+			flash[:error] = "Fehler im System: Nutzer konnte nicht gefunden werden"
 			redirect_to user_index_path
 		end
 	end

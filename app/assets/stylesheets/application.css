@@ -252,7 +252,7 @@ fieldset legend{
 	top: 50px;
 	left: 0px;
 	width: 100%;
-	height: 50px;
+	height: 0px;
 	z-index: 1;
 }
 .status_messages_wrapper p{
@@ -260,6 +260,14 @@ fieldset legend{
 	color: white;
 	margin: 10px 20px;
 	font-size: 16px;
+	display: block;
+	width: 90%;
+	float: left;
+}
+.status_messages_wrapper img{
+	float: right;
+	margin-right: 20px;
+	margin-top: 10px;
 }
 #error_wrapper{
 	background: rgb(255,0,0);

@@ -13,6 +13,7 @@ class SessionController < ApplicationController
 				cookies.signed[:user_id] = user.id
 				redirect_to dashboard_index_path
 			else
+				flash[:error] = "Login fehlgeschlagen: Bitte überprüfen Sie E-Mail und Passwort und versuchen Sie es erneut"
 				redirect_to login_path
 			end
 		else
@@ -23,6 +24,7 @@ class SessionController < ApplicationController
 
 	def destroy
 		cookies.signed[:user_id] = nil
+		flash[:notice] = "Logout erfolgreich"
 		redirect_to login_path
 	end
 
