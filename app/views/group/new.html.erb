@@ -8,5 +8,7 @@
 			<option value="<%= trainer.id %>"><%= trainer.user.name %></option>
 		<% end %>
 	</select><br /><br />
+	<%= label_tag "for_free", "Kostenlos für Spieler" %>
+	<%= check_box_tag "for_free" %><br /><br />
 	<%= submit_tag "Erstellen" %>
 <% end %>

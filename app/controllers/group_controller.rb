@@ -29,7 +29,9 @@ class GroupController < ApplicationController
 	def create
 		if !params[:name].blank? && !params[:trainer_id].blank?
 			if !Group.find_by_name(params[:name]) && Trainer.find_by_id(params[:trainer_id].to_i)
-				group = Group.create :name => params[:name], :trainer_id => params[:trainer_id].to_i
+				for_free = false
+				for_free = true if !params[:for_free].blank?
+				group = Group.create :name => params[:name], :trainer_id => params[:trainer_id].to_i, :for_free => for_free
 				flash[:notice] = group.name + " erfolgreich erstellt"
 			else
 				flash[:error] = Group.find_by_name(params[:name]).name + " existiert bereits"
@@ -57,7 +59,9 @@ class GroupController < ApplicationController
 	def update
 		if !params[:group_id]. blank? && !params[:name].blank? && !params[:trainer_id].blank?
 			if Group.find_by_id params[:group_id]
-				Group.find_by_id(params[:group_id]).update_attributes :trainer_id => params[:trainer_id].to_i, :name => params[:name]
+				for_free = false
+				for_free = true if !params[:for_free].blank?
+				Group.find_by_id(params[:group_id]).update_attributes :trainer_id => params[:trainer_id].to_i, :name => params[:name], :for_free => for_free
 				flash[:notice] = Group.find_by_id(params[:id]).name + " erfolgreich bearbeitet"
 			else
 				flash[:error] = "Fehler im System: Gruppe konnte nicht gefunden werden"
@@ -97,7 +101,7 @@ class GroupController < ApplicationController
 	def destroy
 		if params[:id]
 			if Group.find_by_id params[:id]
-				flash[:notice] = Group.find_by_id(params[:customer_id]).name + " wurde erfolgreich gelöscht"
+				flash[:notice] = Group.find_by_id(params[:id].to_i).name + " wurde erfolgreich gelöscht"
 				Group.find_by_id(params[:id]).destroy
 				redirect_to group_index_path
 			else

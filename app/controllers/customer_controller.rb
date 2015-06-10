@@ -73,7 +73,7 @@ class CustomerController < ApplicationController
 	def destroy
 		if params[:id]
 			if Customer.find_by_id params[:id]
-				flash[:notice] = "Kunde " + Customer.find_by_id(params[:customer_id]).name + " wurde erfolgreich gelöscht"
+				flash[:notice] = "Kunde " + Customer.find_by_id(params[:id]).name + " wurde erfolgreich gelöscht"
 				Customer.find_by_id(params[:id]).destroy
 				redirect_to customer_index_path
 			else

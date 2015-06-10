@@ -93,7 +93,7 @@ class PriceController < ApplicationController
 	def destroy
 		if params[:id]
 			if Price.find_by_id params[:id]
-				flash[:notice] = "Preis von " + Price.find_by_id(params[:price_id].to_i).trainer.user.name + " erfolgreich gelöscht"
+				flash[:notice] = "Preis von " + Price.find_by_id(params[:id].to_i).trainer.user.name + " erfolgreich gelöscht"
 				Price.find_by_id(params[:id]).destroy
 			else
 				flash[:error] = "Fehler im System: Preis konnte nicht gefunden werden"

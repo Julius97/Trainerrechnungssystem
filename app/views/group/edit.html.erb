@@ -13,5 +13,13 @@
 			<% end %>
 		<% end %>
 	</select><br /><br />
+	<% if @group.for_free %>
+		<%= label_tag "for_free", "Kostenlos für Spieler" %>
+		<%= check_box_tag "for_free", 1,true %>
+	<% else %>
+		<%= label_tag "for_free", "Kostenlos für Spieler" %>
+		<%= check_box_tag "for_free" %>
+	<% end %>
+	<br /><br />
 	<%= submit_tag "Bearbeiten" %>
 <% end %>
