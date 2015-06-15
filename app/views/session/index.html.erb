@@ -1,9 +1,12 @@
 <h1>Login</h1>
 <%= form_tag login_path, method: :post do %>
 	<%= label_tag "mail_address", "Mailadresse" %><br />
-	<%= text_field_tag "mail_address" %><br /><br />
+	<%= email_field_tag "mail_address" %><br /><br />
 	<%= label_tag "password", "Passwort" %><br />
 	<%= password_field_tag "password" %><br /><br />
+	<%= label_tag "stay_logged_in","Eingeloggt bleiben" %>
+	<input type="checkbox" name="stay_logged_in" id="stay_logged_in" value="1" />
+	<br /><br />
 	<%= submit_tag "Login" %>
 <% end %>
 <p>

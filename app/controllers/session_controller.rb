@@ -10,7 +10,11 @@ class SessionController < ApplicationController
 		if !params[:mail_address].blank? && !params[:password].blank?
 			user = User.authenticate(params[:mail_address],params[:password])
 			if user
-				cookies.signed[:user_id] = user.id
+				if !params[:stay_logged_in].blank?
+					cookies.permanent.signed[:user_id] = user.id
+				else
+					cookies.signed[:user_id] = user.id
+				end
 				redirect_to dashboard_index_path
 			else
 				flash[:error] = "Login fehlgeschlagen: Bitte überprüfen Sie E-Mail und Passwort und versuchen Sie es erneut"
