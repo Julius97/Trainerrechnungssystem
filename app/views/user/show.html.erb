@@ -20,3 +20,156 @@
 		<%= link_to "Mein Profil bearbeiten", edit_user_path(@current_user.id) %>
 	</p>
 <% end %>
+<% if @user.trainer %>
+<div id="bill">
+	<% total_given_group_lessons = 0.0 %>
+	<h2>Rechnung</h2>
+	<div class="scroll_vertical_enable">
+		<% @groups.each do |group| %>
+			<table class="trainings_table">
+				<thead>
+					<tr>
+						<th style="font-size:20px;" colspan="<%= (2 + group.groupclassifications.count).to_s %>"><%= group.name %></th>
+					</tr>
+					<tr>
+						<th>Datum</th>
+						<th>Stunden</th>
+						<% customer_total_lessons = [] %>
+						<% customer_total_costs = [] %>
+						<% group.groupclassifications.each do |groupclass| %>
+							<th><%= groupclass.customer.name %></th>
+							<% customer_total_lessons << 0.0 %>
+							<% customer_total_costs << 0.0 %>
+						<% end %>
+						<th>Preis / Spieler</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% total_lessons = 0.0 %>
+					<% if group.groupclassifications.count > 0 %>
+						<% Training.where(:groupclassification_id => group.groupclassifications.first.id).each do |training_time| %>
+							<tr>
+								<td>
+									<%= training_time.training_start.strftime("%d.%m.%Y") %><br />
+									<%= training_time.training_start.strftime("%H:%M") + " - " + training_time.training_end.strftime("%H:%M") %>
+								</td>
+								<td>
+									<%= ((training_time.training_end - training_time.training_start)/3600).to_s + " h" %>
+									<% total_lessons += (training_time.training_end - training_time.training_start)/3600 %>
+								</td>
+								<% participated_players = 0 %>
+								<% Training.where(:training_start => training_time.training_start, :training_end => training_time.training_end).each do |training| %>
+									<% i = 0 %>
+									<% group.groupclassifications.each do |groupclass| %>
+										<% if training.groupclassification.group.id == group.id && training.groupclassification.customer.id == groupclass.customer.id %>
+											<% if training.participated %>
+												<td class="was_participated_cell">anwesend</td>
+												<% customer_total_lessons[i] += (training_time.training_end - training_time.training_start)/3600 %>
+												<% participated_players += 1 %>
+											<% else %>
+												<td class="was_not_participated_cell">abwesend</td>
+											<% end %>
+										<% end %>
+										<% i += 1 %>
+									<% end %>
+								<% end %>
+								<% i = 0 %>
+								<% Training.where(:training_start => training_time.training_start, :training_end => training_time.training_end).each do |training| %>
+									<% group.groupclassifications.each do |groupclass| %>
+										<% if training.groupclassification.group.id == group.id && training.groupclassification.customer.id == groupclass.customer.id %>
+											<% if training.participated %>
+												<% customer_total_costs[i] += ((((training_time.training_end - training_time.training_start)/3600).to_f * ((@price_per_lesson - @discount_per_lesson).to_f/ participated_players.to_f)).to_f).round(2) %>
+											<% end %>
+											<% i += 1 %>
+										<% end %>
+									<% end %>
+								<% end %>
+								<td>
+									<% if group.for_free %>
+										0 €
+									<% else %>
+										<%= (((training_time.training_end - training_time.training_start)/3600).to_f).to_s + " h * (" + ((@price_per_lesson - @discount_per_lesson).to_f).to_s + " € / " + participated_players.to_s + ")" %><br /><%= " = " +((((training_time.training_end - training_time.training_start)/3600).to_f * ((@price_per_lesson - @discount_per_lesson).to_f/ participated_players.to_f)).to_f).round(2).to_s + " €" %>
+									<% end %>
+								</td>
+							</tr>
+						<% end %>
+					<% end %>
+					<tr>
+						<td><b>Stunden<br /> insgesamt</b></td>
+						<td><%= total_lessons.to_s + " h" %></td>
+						<% group.groupclassifications.each_with_index do |groupclass,i| %>
+							<td><%= customer_total_lessons[i].to_s + " h" %></td>
+						<% end %>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td>
+							<b>Preise</b>
+						</td>
+						<td><%= @price_per_lesson.to_s + " € / h" %></td>
+						<td style="text-align:center;" colspan="<%= group.groupclassifications.count %>">
+							<% if group.for_free %>
+								Kostenlos für Spieler
+							<% else %>
+								<%= "((" + @price_per_lesson.to_s + " € - " + @discount_per_lesson.to_s + " €) / anwesend Spieler) pro Stunde" %>
+							<% end %>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<b>Rechnungsbetrag</b>
+						</td>
+						<td>
+							<% total_given_group_lessons += total_lessons %>
+							<%= (total_lessons * @price_per_lesson).to_s + " €" %>
+						</td>
+						<% group.groupclassifications.each_with_index do |groupclass,i| %>
+							<td>
+								<% if group.for_free %>
+									0 €
+								<% else %>
+									<%= customer_total_costs[i].to_s + " €" %>
+								<% end %>
+							</td>
+						<% end %>
+						<td>
+							<b>Kontrolle:</b><br />
+							<% if group.for_free %>
+								Spieler: 0 € <br />
+								Verein: <%= (total_lessons * @price_per_lesson).round(1).to_s + " €" %><br />
+							<% else %>
+								Spieler: <%= (customer_total_costs.sum).round(1).to_s + " €" %><br />
+								Verein: <%= (total_lessons * @discount_per_lesson).round(1).to_s + " €" %><br />
+							<% end %>
+							Summe: <%= (customer_total_costs.sum + (total_lessons * @discount_per_lesson)).round(1).to_s + " €" %>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		<% end %>
+	</div>
+	<h3>Gesamtrechnung</h3>
+	<table>
+		<tr>
+			<td><b>Stundenanzahl</b></td>
+			<td><%= total_given_group_lessons.to_s + " h" %></td>
+		</tr>
+		<tr>
+			<td><b>Spieler</b></td>
+			<td><%= (total_given_group_lessons * @price_per_lesson) - (total_given_group_lessons * @discount_per_lesson) %></td>
+		</tr>
+		<tr>
+			<td><b>Verein:</b></td>
+			<td><%= (total_given_group_lessons * @discount_per_lesson).to_s + " €" %></td>
+		</tr>
+		<tr>
+			<td><b>Gesamt:</b></td>
+			<td><%= (total_given_group_lessons * @price_per_lesson).to_s + " €" %></td>
+		</tr>
+	</table>
+	<p>
+		<input type="submit" value="Rechnung drucken" onclick="printBill();" />
+	</p>
+</div>
+<% end %>

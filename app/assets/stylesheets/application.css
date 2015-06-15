@@ -72,6 +72,13 @@ h1 a{
 h1 a:hover{
 	text-shadow: 2px 2px 1px #cdc9c9;
 }
+#bill h2{
+	font-size: 24px;
+	margin-bottom: 30px;
+}
+#bill h3{
+	font-size: 18px;
+}
 p{
 	margin: 20px 0px;
 	text-align: justify;
@@ -403,6 +410,9 @@ fieldset legend{
 }
 .tile_span_4{
 	width: 780px;
+}
+.trainings_table{
+	margin-bottom: 100px;
 }
 
 @media only print

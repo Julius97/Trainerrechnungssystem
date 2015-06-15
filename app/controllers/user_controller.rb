@@ -66,6 +66,11 @@ class UserController < ApplicationController
 			if User.find_by_id params[:id]
 				if User.find_by_id(params[:id]).id == @current_user.id || @current_user.admin_permissions
 					@user = User.find_by_id params[:id]
+					if @user.trainer
+						@groups = @user.trainer.groups
+						@price_per_lesson = @user.trainer.price.price_per_lesson
+						@discount_per_lesson = @user.trainer.price.discount_per_lesson
+					end
 				else
 					flash[:error] = "Fremdes Nutzerprofil angefordert. Sie verfügen über keine Berechtigung für diese Aktion"
 					redirect_to user_index_path
