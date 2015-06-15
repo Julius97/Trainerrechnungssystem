@@ -7,7 +7,7 @@ class TrainingController < ApplicationController
 			training_start = DateTime.new(params[:year].to_i, params[:month].to_i, params[:day].to_i, params[:from_hour].to_i, params[:from_min].to_i,0)
 			training_end = DateTime.new(params[:year].to_i, params[:month].to_i, params[:day].to_i, params[:to_hour].to_i, params[:to_min].to_i,0)
 			if training_end > training_start
-				if training_end < DateTime.now
+				if training_end - DateTime.now.utc_offset < DateTime.now
 					if Group.find_by_id params[:group_id]
 						params[:customer].each do |key,value|
 							if Groupclassification.where(:customer_id => key.to_i, :group_id => params[:group_id].to_i).count > 0
