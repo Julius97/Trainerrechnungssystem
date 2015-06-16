@@ -1,0 +1,12 @@
+<% if !flash[:error].blank? %>
+	<section id="error_wrapper" class="status_messages_wrapper">
+		<p><%= flash[:error] %></p>
+		<%= image_tag("close_button.png", height: "30", width: "30") %>
+	</section>
+<% end %>
+<% if !flash[:notice].blank? %>
+	<section id="success_wrapper" class="status_messages_wrapper">
+		<p><%= flash[:notice] %></p>
+		<%= image_tag("close_button.png", height: "30", width: "30") %>
+	</section>
+<% end %>

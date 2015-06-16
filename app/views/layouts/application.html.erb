@@ -26,65 +26,11 @@
 			}
 		  </style>
 	  	<% end %>
-		<header id="top_header">
-			<% if !@current_user.nil? && !mobile_device? %>
-				<div id="logo_wrapper">
-					<a href="/dashboard">
-						<%= image_tag("home_icon.png", height: "44", width: "44", title: "Dashboard") %>
-					</a>
-				</div>
-			<% end %>
-			<h1>Rechnungssystem</h1>
-		</header>
-		<% if !flash[:error].blank? %>
-			<section id="error_wrapper" class="status_messages_wrapper">
-				<p><%= flash[:error] %></p>
-				<%= image_tag("close_button.png", height: "30", width: "30") %>
-			</section>
-		<% end %>
-		<% if !flash[:notice].blank? %>
-			<section id="success_wrapper" class="status_messages_wrapper">
-				<p><%= flash[:notice] %></p>
-				<%= image_tag("close_button.png", height: "30", width: "30") %>
-			</section>
-		<% end %>
+		<%= render "shared/header" %>
+		<%= render "shared/messages_bar" %>
 		<section id="main_wrapper">
 			<%= yield %>
 		</section>
-		<% if !@current_user.nil? || !mobile_device? %>
-			<footer id="footer_menue">
-				<ul>
-					<% if !@current_user.nil? %>
-						<% if !mobile_device? %>
-							<% if @current_user.admin_permissions %>
-								<li><%= link_to "Trainer", user_index_path %></li>
-							<% else %>
-								<li><%= link_to "Profil", user_path(@current_user.id) %></li>
-							<% end %>
-							<li><%= link_to "Spieler", customer_index_path %></li>
-							<li><%= link_to "Preise", price_index_path %></li>
-							<li><%= link_to "Gruppen", group_index_path %></li>
-							<li><%= link_to "Logout", logout_path %></li>
-						<% else %>
-							<li>
-								<a href="<%= request.headers["Referer"] %>">
-									<%= image_tag("return_picto.png", height: "44", width: "44", title: "Back") %>
-								</a>
-							</li>
-							<li>
-								<a href="/dashboard">
-									<%= image_tag("home_icon.png", height: "44", width: "44", title: "Dashboard") %>
-								</a>
-							</li>
-							<li>
-								<a href="/logout">
-									<%= image_tag("logout_picto.png", height: "44", width: "44", title: "Logout") %>
-								</a>
-							</li>
-						<% end %>
-					<% end %>
-				</ul>
-			</footer>
-		<% end %>
+		<%= render "shared/footer" %>
 	</body>
 </html>

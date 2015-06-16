@@ -1,0 +1,10 @@
+<header id="top_header">
+	<% if !@current_user.nil? && !mobile_device? %>
+		<div id="logo_wrapper">
+			<a href="/dashboard">
+				<%= image_tag("home_icon.png", height: "44", width: "44", title: "Dashboard") %>
+			</a>
+		</div>
+	<% end %>
+	<h1>Rechnungssystem</h1>
+</header>
