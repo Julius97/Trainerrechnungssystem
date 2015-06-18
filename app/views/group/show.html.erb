@@ -2,6 +2,10 @@
 <ul>
 	<li>Bezeichnung: <%= @group.name %></li>
 	<li>Trainer: <%= @group.trainer.user.name %></li>
+	<li>Trainerkosten: <%= @group.price.price_per_lesson %> € / h</li>
+	<li>Vereinszuschuss: <%= @group.price.discount_per_lesson %> € / h</li>
+	<li>Gesamtkosten Spieler: <%= ((@group.price.price_per_lesson - @group.price.discount_per_lesson).to_f).to_s %> € / h</li>
+	<li>Kosten pro Spieler: <%= ((@group.price.price_per_lesson - @group.price.discount_per_lesson).to_f / @group.groupclassifications.count.to_f).to_s %> € / h (wenn alle anwesend)</li>
 	<h3>Spieler</h3>
 	<% if @group.groupclassifications.count > 0 %>
 		<ul class="counting_ul">
