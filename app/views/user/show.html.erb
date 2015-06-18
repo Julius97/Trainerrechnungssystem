@@ -6,11 +6,17 @@
 	<li>Administrator: <%= @user.admin_permissions ? "Ja" : "Nein" %></li>
 	<li>Trainer: <%= @user.trainer.nil? ? "Nein" : "Ja" %></li>
 	<% if !@user.trainer.nil? %>
-		<li>Lohn pro Stunde: <%= @user.trainer.price.price_per_lesson.to_s + " €" %></li>
 		<li>Anzahl der zu trainierenden Gruppen: <%= @user.trainer.groups.count %></li>
 		<ul class="counting_ul">
 			<% @user.trainer.groups.each do |group| %>
-				<li><%= link_to group.name, group_path(group.id) %> <%= "(" + group.groupclassifications.count.to_s + " Spieler)" %></li>
+				<li>
+					<%= link_to group.name, group_path(group.id) %> <%= "(" + group.groupclassifications.count.to_s + " Spieler)" %>
+					<% if group.price %>
+						(Lohn: <%= group.price.price_per_lesson %> € / h)
+					<% else %>
+						(Lohn nicht bekannt)
+					<% end %>
+				</li>
 			<% end %>
 		</ul>
 	<% end %>
@@ -26,6 +32,10 @@
 	<h2>Rechnung</h2>
 	<div class="scroll_vertical_enable">
 		<% @groups.each do |group| %>
+			<% if group.price %>
+				<% @price_per_lesson = group.price.price_per_lesson %>
+				<% @discount_per_lesson = group.price.discount_per_lesson %>
+			<% end %>
 			<table class="trainings_table">
 				<thead>
 					<tr>
@@ -73,14 +83,16 @@
 										<% i += 1 %>
 									<% end %>
 								<% end %>
-								<% i = 0 %>
-								<% Training.where(:training_start => training_time.training_start, :training_end => training_time.training_end).each do |training| %>
-									<% group.groupclassifications.each do |groupclass| %>
-										<% if training.groupclassification.group.id == group.id && training.groupclassification.customer.id == groupclass.customer.id %>
-											<% if training.participated %>
-												<% customer_total_costs[i] += ((((training_time.training_end - training_time.training_start)/3600).to_f * ((@price_per_lesson - @discount_per_lesson).to_f/ participated_players.to_f)).to_f).round(2) %>
+								<% if group.price %>
+									<% i = 0 %>
+									<% Training.where(:training_start => training_time.training_start, :training_end => training_time.training_end).each do |training| %>
+										<% group.groupclassifications.each do |groupclass| %>
+											<% if training.groupclassification.group.id == group.id && training.groupclassification.customer.id == groupclass.customer.id %>
+												<% if training.participated %>
+													<% customer_total_costs[i] += ((((training_time.training_end - training_time.training_start)/3600).to_f * ((@price_per_lesson - @discount_per_lesson).to_f/ participated_players.to_f)).to_f).round(2) %>
+												<% end %>
+												<% i += 1 %>
 											<% end %>
-											<% i += 1 %>
 										<% end %>
 									<% end %>
 								<% end %>
@@ -88,7 +100,11 @@
 									<% if group.for_free %>
 										0 €
 									<% else %>
-										<%= (((training_time.training_end - training_time.training_start)/3600).to_f).to_s + " h * (" + ((@price_per_lesson - @discount_per_lesson).to_f).to_s + " € / " + participated_players.to_s + ")" %><br /><%= " = " +((((training_time.training_end - training_time.training_start)/3600).to_f * ((@price_per_lesson - @discount_per_lesson).to_f/ participated_players.to_f)).to_f).round(2).to_s + " €" %>
+										<% if group.price %>
+											<%= (((training_time.training_end - training_time.training_start)/3600).to_f).to_s + " h * (" + ((@price_per_lesson - @discount_per_lesson).to_f).to_s + " € / " + participated_players.to_s + ")" %><br /><%= " = " +((((training_time.training_end - training_time.training_start)/3600).to_f * ((@price_per_lesson - @discount_per_lesson).to_f/ participated_players.to_f)).to_f).round(2).to_s + " €" %>
+										<% else %>
+											Preis nicht bekannt
+										<% end %>
 									<% end %>
 								</td>
 							</tr>
@@ -102,50 +118,60 @@
 						<% end %>
 					</tr>
 				</tbody>
-				<tfoot>
-					<tr>
-						<td>
-							<b>Preise</b>
-						</td>
-						<td><%= @price_per_lesson.to_s + " € / h" %></td>
-						<td style="text-align:center;" colspan="<%= group.groupclassifications.count %>">
-							<% if group.for_free %>
-								Kostenlos für Spieler
-							<% else %>
-								<%= "((" + @price_per_lesson.to_s + " € - " + @discount_per_lesson.to_s + " €) / anwesend Spieler) pro Stunde" %>
-							<% end %>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<b>Rechnungsbetrag</b>
-						</td>
-						<td>
-							<% total_given_group_lessons += total_lessons %>
-							<%= (total_lessons * @price_per_lesson).to_s + " €" %>
-						</td>
-						<% group.groupclassifications.each_with_index do |groupclass,i| %>
+				<% if group.price %>
+					<tfoot>
+						<tr>
 							<td>
+								<b>Preise</b>
+							</td>
+							<td><%= @price_per_lesson.to_s + " € / h" %></td>
+							<td style="text-align:center;" colspan="<%= group.groupclassifications.count %>">
 								<% if group.for_free %>
-									0 €
+									Kostenlos für Spieler
 								<% else %>
-									<%= customer_total_costs[i].to_s + " €" %>
+									<%= "((" + @price_per_lesson.to_s + " € - " + @discount_per_lesson.to_s + " €) / anwesend Spieler) pro Stunde" %>
 								<% end %>
 							</td>
-						<% end %>
-						<td>
-							<b>Kontrolle:</b><br />
-							<% if group.for_free %>
-								Spieler: 0 € <br />
-								Verein: <%= (total_lessons * @price_per_lesson).round(1).to_s + " €" %><br />
-							<% else %>
-								Spieler: <%= (customer_total_costs.sum).round(1).to_s + " €" %><br />
-								Verein: <%= (total_lessons * @discount_per_lesson).round(1).to_s + " €" %><br />
+						</tr>
+						<tr>
+							<td>
+								<b>Rechnungsbetrag</b>
+							</td>
+							<td>
+								<% total_given_group_lessons += total_lessons %>
+								<%= (total_lessons * @price_per_lesson).to_s + " €" %>
+							</td>
+							<% group.groupclassifications.each_with_index do |groupclass,i| %>
+								<td>
+									<% if group.for_free %>
+										0 €
+									<% else %>
+										<%= customer_total_costs[i].to_s + " €" %>
+									<% end %>
+								</td>
 							<% end %>
-							Summe: <%= (customer_total_costs.sum + (total_lessons * @discount_per_lesson)).round(1).to_s + " €" %>
-						</td>
-					</tr>
-				</tfoot>
+							<td>
+								<b>Kontrolle:</b><br />
+								<% if group.for_free %>
+									Spieler: 0 € <br />
+									Verein: <%= (total_lessons * @price_per_lesson).round(1).to_s + " €" %><br />
+								<% else %>
+									Spieler: <%= (customer_total_costs.sum).round(1).to_s + " €" %><br />
+									Verein: <%= (total_lessons * @discount_per_lesson).round(1).to_s + " €" %><br />
+								<% end %>
+								Summe: <%= (customer_total_costs.sum + (total_lessons * @discount_per_lesson)).round(1).to_s + " €" %>
+							</td>
+						</tr>
+					</tfoot>
+				<% else %>
+					<tfoot>
+						<tr>
+							<td style="text-align: center; font-weight: bold;" colspan="<%= (3 + group.groupclassifications.count).to_s %>">
+								Keine Gesamtrechnung möglich, da kein Preis bekannt ist
+							</td>
+						</tr>
+					</tfoot>
+				<% end %>
 			</table>
 		<% end %>
 	</div>

@@ -68,8 +68,6 @@ class UserController < ApplicationController
 					@user = User.find_by_id params[:id]
 					if @user.trainer
 						@groups = @user.trainer.groups
-						@price_per_lesson = @user.trainer.price.price_per_lesson
-						@discount_per_lesson = @user.trainer.price.discount_per_lesson
 					end
 				else
 					flash[:error] = "Fremdes Nutzerprofil angefordert. Sie verfügen über keine Berechtigung für diese Aktion"
