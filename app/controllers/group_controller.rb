@@ -10,8 +10,8 @@ class GroupController < ApplicationController
 		if params[:id]
 			if Group.find_by_id params[:id]
 				@group = Group.find_by_id params[:id]
-				@price_per_lesson = @group.trainer.price.price_per_lesson
-				@discount_per_lesson = @group.trainer.price.discount_per_lesson
+				@price_per_lesson = @group.price.price_per_lesson
+				@discount_per_lesson = @group.price.discount_per_lesson
 			else
 				flash[:error] = "Fehler im System: Gruppe konnte nicht gefunden werden"
 				redirect_to group_index_path

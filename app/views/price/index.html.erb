@@ -6,7 +6,7 @@
 	<table>
 		<thead>
 			<tr>
-				<th>Trainer</th>
+				<th>Gruppe</th>
 				<th>Preis / h</th>
 				<th>Zuschuss / h</th>
 				<th>Aktionen</th>
@@ -14,7 +14,7 @@
 		</thead>
 		<% @prices.each do |price| %>
 			<tr>
-				<td><%= price.trainer.user.name %></td>
+				<td><%= price.group.name %></td>
 				<td><%= price.price_per_lesson.to_s + " €" %></td>
 				<td><%= price.discount_per_lesson.to_s + " €" %></td>
 				<td class="actions_cell">
@@ -29,13 +29,13 @@
 	<table>
 		<thead>
 			<tr>
-				<th>Trainer</th>
+				<th>Gruppe</th>
 				<th>Aktionen</th>
 			</tr>
 		</thead>
 		<% @prices.each do |price| %>
 			<tr>
-				<td><%= price.trainer.user.name %></td>
+				<td><%= price.group.name %></td>
 				<td class="actions_cell">
 					<%= link_to "Anzeigen", price_path(price.id) %> | 
 					<%= link_to "Bearbeiten", edit_price_path(price.id) %> | 

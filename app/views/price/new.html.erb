@@ -1,9 +1,9 @@
 <h1>Neuen Preis erstellen</h1>
 <%= form_tag price_index_path, method: :post do %>
-	<%= label_tag "trainer_id", "Trainer" %>
-	<select name="trainer_id">
-		<% Trainer.all.each do |trainer| %>
-			<option value="<%= trainer.id %>"><%= trainer.user.name %></option>
+	<%= label_tag "group_id", "Gruppe" %>
+	<select name="group_id">
+		<% Group.all.order(:name).each do |group| %>
+			<option value="<%= group.id %>"><%= group.name %></option>
 		<% end %>
 	</select>
 	<br /><br />

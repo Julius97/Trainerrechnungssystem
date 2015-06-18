@@ -3,7 +3,7 @@ class PriceController < ApplicationController
 	before_action -> { check_session(true,false) }
 
 	def index
-		@prices = Price.all.order(:trainer_id)
+		@prices = Price.all.order(:group_id)
 	end
 
 	def show
@@ -25,12 +25,12 @@ class PriceController < ApplicationController
 	end
 
 	def create
-		if !params[:price_per_lesson].blank? && !params[:discount_per_lesson].blank? && !params[:trainer_id].blank?
-			if Trainer.find_by_id(params[:trainer_id].to_i)
-				if !Price.find_by_trainer_id(params[:trainer_id].to_i)
+		if !params[:price_per_lesson].blank? && !params[:discount_per_lesson].blank? && !params[:group_id].blank?
+			if Group.find_by_id(params[:group_id].to_i)
+				if !Price.find_by_group_id(params[:group_id].to_i)
 					if params[:price_per_lesson].to_i >= 0 && params[:discount_per_lesson].to_i >= 0
 						if params[:price_per_lesson].to_i >= params[:discount_per_lesson].to_i
-							Price.create :trainer_id => params[:trainer_id].to_i, :discount_per_lesson => params[:discount_per_lesson].to_i, :price_per_lesson => params[:price_per_lesson].to_i
+							Price.create :group_id => params[:group_id].to_i, :discount_per_lesson => params[:discount_per_lesson].to_i, :price_per_lesson => params[:price_per_lesson].to_i
 							flash[:notice] = "Preis wurde erfolgreich erstellt"
 						else
 							flash[:error] = "Der Vereinszuschuss darf nicht größer als der Trainerpreis sein"
@@ -39,10 +39,10 @@ class PriceController < ApplicationController
 						flash[:error] = "Der Preis und der Zuschuss darf nicht kleiner 0€ sein"
 					end
 				else
-					flash[:error] = "Für diesen Trainer liegt bereits ein Preis vor. Wenn dieser verändert werden soll, kann der Preis nachträglich bearbeitet werden"
+					flash[:error] = "Für diese Gruppe liegt bereits ein Preis vor. Wenn dieser verändert werden soll, kann der Preis nachträglich bearbeitet werden"
 				end
 			else
-				flash[:error] = "Fehler im System: Trainer konnte nicht gefunden werden"
+				flash[:error] = "Fehler im System: Gruppe konnte nicht gefunden werden"
 			end
 		else
 			flash[:error] = "Bitte alle Felder ausfüllen"
@@ -70,7 +70,7 @@ class PriceController < ApplicationController
 				if params[:price_per_lesson].to_i > 0 && params[:discount_per_lesson].to_i >= 0
 					if params[:price_per_lesson].to_i >= params[:discount_per_lesson].to_i
 						Price.find_by_id(params[:price_id].to_i).update_attributes :discount_per_lesson => params[:discount_per_lesson].to_i, :price_per_lesson => params[:price_per_lesson].to_i
-						flash[:notice] = "Preis von " + Price.find_by_id(params[:price_id].to_i).trainer.user.name + " erfolgreich bearbeitet"
+						flash[:notice] = "Preis von " + Price.find_by_id(params[:price_id].to_i).group.name + " erfolgreich bearbeitet"
 					else
 						flash[:error] = "Der Vereinszuschuss darf nicht größer als der Trainerpreis sein"
 					end
@@ -93,7 +93,7 @@ class PriceController < ApplicationController
 	def destroy
 		if params[:id]
 			if Price.find_by_id params[:id]
-				flash[:notice] = "Preis von " + Price.find_by_id(params[:id].to_i).trainer.user.name + " erfolgreich gelöscht"
+				flash[:notice] = "Preis von " + Price.find_by_id(params[:id].to_i).group.name + " erfolgreich gelöscht"
 				Price.find_by_id(params[:id]).destroy
 			else
 				flash[:error] = "Fehler im System: Preis konnte nicht gefunden werden"

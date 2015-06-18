@@ -1,8 +1,8 @@
-<h1>Preis von <%= @price.trainer.user.name %> bearbeiten</h1>
+<h1>Preis von <%= @price.group.name %> bearbeiten</h1>
 <%= form_tag price_path, method: :put do %>
 	<%= hidden_field_tag "price_id", @price.id %>
-	<%= label_tag "", "Trainer" %>
-	<%= @price.trainer.user.name %>
+	<%= label_tag "", "Gruppe" %>
+	<%= @price.group.name %>
 	<br /><br />
 	<%= label_tag "price_per_lesson", "Preis pro Stunde" %><br />
 	<%= number_field_tag "price_per_lesson", @price.price_per_lesson, :step => 1, :min => 1 %><br /><br />

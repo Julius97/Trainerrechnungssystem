@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150610084754) do
+ActiveRecord::Schema.define(version: 20150618014741) do
 
   create_table "customers", force: true do |t|
     t.string   "first_name"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20150610084754) do
   create_table "prices", force: true do |t|
     t.integer  "price_per_lesson"
     t.integer  "discount_per_lesson"
-    t.integer  "trainer_id"
+    t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
