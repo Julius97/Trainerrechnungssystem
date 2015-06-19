@@ -35,4 +35,12 @@ Rails.application.routes.draw do
   #PRICE ROUTES
   resources :price
 
+  #CONTACT ROUTES
+  get "contact", to: "contact#new"
+  post "contact", to: "contact#create"
+
+  # STATIC PAGES
+  static_pages = [:imprint]
+  static_pages.each { |static_page| get static_page.to_s, to: "static#" + static_page.to_s, as: ("static_" + static_page.to_s).intern }
+
 end
