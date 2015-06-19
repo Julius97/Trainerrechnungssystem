@@ -2,22 +2,27 @@
 <%= form_tag contact_path, method: :post do %>
 	<%= label_tag "first_name", "Vorname" %><br />
 	<% if @current_user %>
+		<%= hidden_field_tag "first_name", @current_user.first_name %>
 		<%= @current_user.first_name %><br />
 	<% else %>
 		<%= text_field_tag "first_name" %><br /><br />
 	<% end %>
 	<%= label_tag "last_name", "Nachname" %><br />
 	<% if @current_user %>
+		<%= hidden_field_tag "last_name", @current_user.last_name %>
 		<%= @current_user.last_name %><br />
 	<% else %>
 		<%= text_field_tag "last_name" %><br /><br />
 	<% end %>
 	<%= label_tag "mail", "E-Mail" %><br />
 	<% if @current_user %>
+		<%= hidden_field_tag "mail", @current_user.mail_address %>
 		<%= @current_user.mail_address %><br /><br />
 	<% else %>
 		<%= text_field_tag "mail" %><br /><br />
 	<% end %>
+	<%= label_tag "subject", "Betreff" %><br />
+	<%= text_field_tag "subject" %><br /><br />
 	<%= label_tag "message", "Nachricht" %><br />
 	<%= text_area_tag "message", "" %><br /><br />
 	<%= submit_tag "Absenden" %>
