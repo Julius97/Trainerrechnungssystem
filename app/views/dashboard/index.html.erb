@@ -56,6 +56,16 @@
 			</div>
 		</div>
 		<div class="tile_row">
+			<% if @current_user.admin_permissions %>
+				<div class="tile tile_span_2">
+					<a href="/settings">
+						<div class="img_wrapper" id="admin_tile">
+							<h2>Verwaltung</h2>
+							<%= image_tag("schloss.png", height: "130", width: "100") %>
+						</div>
+					</a>
+				</div>
+			<% end %>
 			<div class="tile tile_span_1">
 				<a href="/contact">
 					<div class="inner_tile_wrapper">
@@ -132,6 +142,18 @@
 				</a>
 			</div>
 		</div>
+		<% if @current_user.admin_permissions %>
+			<div class="tile_row">
+				<div class="tile tile_span_4">
+					<a href="/settings">
+						<div class="img_wrapper" id="admin_tile">
+							<h2>Verwaltung</h2>
+							<%= image_tag("schloss.png", height: "100", width: "75") %>
+						</div>
+					</a>
+				</div>
+			</div>
+		<% end %>
 		<div class="tile_row">
 			<div class="tile tile_span_2">
 				<a href="/contact">

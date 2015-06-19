@@ -11,6 +11,9 @@
 					<li><%= link_to "Spieler", customer_index_path %></li>
 					<li><%= link_to "Preise", price_index_path %></li>
 					<li><%= link_to "Gruppen", group_index_path %></li>
+					<% if @current_user.admin_permissions %>
+						<li><%= link_to "Verwalung", settings_path %></li>
+					<% end %>
 					<li><%= link_to "Logout", logout_path %></li>
 				<% else %>
 					<li>

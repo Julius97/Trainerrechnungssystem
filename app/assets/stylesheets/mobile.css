@@ -340,7 +340,9 @@ fieldset legend{
 }
 .tile .inner_tile_wrapper img{
 	clear: both;
-	margin-left: 30px;
+	position: relative;
+	left: 50%;
+	margin-left: -40px;
 }
 .tile .inner_tile_wrapper .smaller_tile_h2{
 	font-size: 30px;

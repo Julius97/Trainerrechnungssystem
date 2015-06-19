@@ -383,7 +383,9 @@ fieldset legend{
 }
 .tile .inner_tile_wrapper img{
 	clear: both;
-	margin-left: 30px;
+	position: relative;
+	left: 50%;
+	margin-left: -60px;
 	margin-top: 5px;
 }
 .tile .inner_tile_wrapper .smaller_tile_h2{
@@ -397,6 +399,14 @@ fieldset legend{
 	margin-top: 5px;
 	text-align: right;
 	width: auto;
+}
+.tile #admin_tile h2{
+	font-size: 40px;
+	margin-top: 70px;
+}
+.tile #admin_tile img{
+	margin-right: 20px;
+	margin-top: 20px;
 }
 .tile h3{
 	color: white;

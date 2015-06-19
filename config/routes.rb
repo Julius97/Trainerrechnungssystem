@@ -39,6 +39,9 @@ Rails.application.routes.draw do
   get "contact", to: "contact#new"
   post "contact", to: "contact#create"
 
+  #SETTINGS ROUTES
+  get "settings", to: "settings#index"
+
   # STATIC PAGES
   static_pages = [:imprint]
   static_pages.each { |static_page| get static_page.to_s, to: "static#" + static_page.to_s, as: ("static_" + static_page.to_s).intern }
