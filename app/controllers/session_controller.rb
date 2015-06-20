@@ -15,6 +15,11 @@ class SessionController < ApplicationController
 				else
 					cookies.signed[:user_id] = user.id
 				end
+				if mobile_device?
+					Login.create :user_id => user.id, :mobile_device => true
+				else
+					Login.create :user_id => user.id, :mobile_device => false
+				end
 				redirect_to dashboard_index_path
 			else
 				flash[:error] = "Login fehlgeschlagen: Bitte überprüfen Sie E-Mail und Passwort und versuchen Sie es erneut"

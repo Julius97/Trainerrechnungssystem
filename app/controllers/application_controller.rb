@@ -5,11 +5,22 @@ class ApplicationController < ActionController::Base
 	# protect_from_forgery with: :exception
 
 	helper_method :mobile_device?
+	after_action :setOnlineStatus
+
+	def setOnlineStatus
+ 		if logged_in?
+ 			@current_user.update_attributes :last_seen_at => Time.now
+ 		end
+ 	end
 
 	private
 
 		def mobile_device?
 			request.user_agent =~ /Mobile|webOS|Android|PlayBook|Kindle|Kindle Fire|Windows Phone/
+		end
+
+		def logged_in?
+			return @current_user.present?
 		end
 
 		def check_session(needs_login_check,needs_admin_permissions)

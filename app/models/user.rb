@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
 
 	has_one :trainer
+	has_many :logins
 
 	attr_accessor :password
 	before_create :encrypt_password
@@ -13,6 +14,8 @@ class User < ActiveRecord::Base
 	validates :mail_address, :presence => true
 
 	after_validation :set_defaults
+
+	scope :online, -> { where("last_seen_at > ?", 5.minutes.ago)}
 
 	def self.authenticate(mail_address,password)
 		user = find_by_mail_address mail_address
@@ -40,6 +43,10 @@ class User < ActiveRecord::Base
 		else
 			return false
 		end
+	end
+
+	def online?
+		self.last_seen_at != nil and self.updated_at > 5.minutes.ago
 	end
 
 	private

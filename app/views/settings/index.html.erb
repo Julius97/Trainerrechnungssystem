@@ -1,1 +1,41 @@
 <h1>Admin-Verwaltung</h1>
+<p>
+	<h2>Kennzahlen</h2>
+	<ul>
+		<li>User: <%= User.all.count.to_s %></li>
+		<li>Administratoren: <%= User.all.where(:admin_permissions => true).count.to_s %></li>
+		<li>Trainer: <%= Trainer.all.count.to_s %></li>
+		<li>Spieler: <%= Customer.all.count.to_s %></li>
+		<li>Gruppen: <%= Group.all.count.to_s %></li>
+		<li>Durchschnittliche Gruppenstärke: <%= (Groupclassification.all.count.to_f / Group.all.count.to_f).to_s %> Spieler</li>
+		<li>Durchschnittliche Gruppenanzahl pro Trainer: <%= (Group.all.count.to_f / Trainer.all.count.to_f).to_s %> Gruppen</li>
+	</ul>
+</p>
+<p>
+	<h2>Logins</h2>
+	<ul>
+		<li>Gesamt: <%= Login.count %></li>
+		<li>Davon Desktop: <%= Login.all.where(:mobile_device => false).count %> (<%= (Login.all.where(:mobile_device => false).count.to_f / Login.count.to_f) * 100.0 %>%)</li>
+		<li>Davon Mobil: <%= Login.all.where(:mobile_device => true).count %> (<%= (Login.all.where(:mobile_device => true).count.to_f / Login.count.to_f) * 100.0 %>%)</li>
+		<li>Letzte Stunde: <%= Login.last_hour.count %></li>
+		<li>Heute: <%= Login.today.count %></li>
+		<li>Letzte Woche: <%= Login.last_week.count %></li>
+		<li>Letzter Monat: <%= Login.last_month.count %></li>
+	</ul>
+</p>
+<p>
+	<h2>Gerade online</h2>
+	<ul>
+		<% @online_users.each do |user| %>
+			<li><%= link_to user.name, user_path(user.id) %></li>
+		<% end %>
+	</ul>
+</p>
+<p>
+	<h2>Letzte 10 Logins</h2>
+	<ul>
+		<% Login.order(created_at: :desc).limit(10).each do |login| %>
+			<li><%= link_to login.user.name, user_path(login.user.id) %> am <%= login.created_at.strftime("%d.%m.%Y - %H:%M Uhr") %></li>
+		<% end %>
+	</ul>
+</p>
