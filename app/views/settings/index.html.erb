@@ -39,3 +39,24 @@
 		<% end %>
 	</ul>
 </p>
+<p>
+	<h2>Meiste Logins</h2>
+	<table>
+		<thead>
+			<tr>
+				<th>Platz</th>
+				<th>Name</th>
+				<th>Logins</th>
+			</tr>
+		</head>
+		<tbody>
+			<% @most_logins.each_with_index do |user,index| %>
+				<tr>
+					<td><%= (index + 1).to_s %>.</td>
+					<td><%= link_to user.name, user_path(user.id) %></td>
+					<td><%= user.logins.count %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+</p>

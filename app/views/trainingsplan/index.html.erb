@@ -1,0 +1,57 @@
+<h1>Trainingsplan</h1>
+<ul id="draggable_group_list">
+	<% @groups.each do |group| %>
+		<li data-group="<%= group.id %>"><%= group.name %></li>
+	<% end %>
+</ul>
+<table id="dropable_trainingsplan_table">
+	<thead>
+		<tr>
+			<th>Zeit</th>
+			<th>Montag</th>
+			<th>Dienstag</th>
+			<th>Mittwoch</th>
+			<th>Donnerstag</th>
+			<th>Freitag</th>
+			<th>Samstag</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="time_cell">14-15</td>
+			<% 6.times do |i| %>
+				<td data-group="-1" data-wday="<%= i + 1 %>" data-start="14" data-end="15" class="dropable_trainingsplan_table_cell"></td>
+			<% end %>
+		</tr>
+		<tr>
+			<td class="time_cell">15-16</td>
+			<% 6.times do |i| %>
+				<td data-group="-1" data-wday="<%= i + 1 %>" data-start="15" data-end="16" class="dropable_trainingsplan_table_cell"></td>
+			<% end %>
+		</tr>
+		<tr>
+			<td class="time_cell">16-17</td>
+			<% 6.times do |i| %>
+				<td data-group="-1" data-wday="<%= i + 1 %>" data-start="16" data-end="17" class="dropable_trainingsplan_table_cell"></td>
+			<% end %>
+		</tr>
+		<tr>
+			<td class="time_cell">17-18</td>
+			<% 6.times do |i| %>
+				<td data-group="-1" data-wday="<%= i + 1 %>" data-start="17" data-end="18" class="dropable_trainingsplan_table_cell"></td>
+			<% end %>
+		</tr>
+		<tr>
+			<td class="time_cell">18-19</td>
+			<% 6.times do |i| %>
+				<td data-group="-1" data-wday="<%= i + 1 %>" data-start="18" data-end="19" class="dropable_trainingsplan_table_cell"></td>
+			<% end %>
+		</tr>
+		<tr class="time_cell">
+			<td>19-20</td>
+			<% 6.times do |i| %>
+				<td data-group="-1" class="dropable_trainingsplan_table_cell"></td>
+			<% end %>
+		</tr>
+	</tbody>
+</table>

@@ -454,6 +454,50 @@ fieldset legend{
 	margin-bottom: 100px;
 }
 
+#draggable_group_list{
+	float: left;
+	width: 150px;
+}
+#draggable_group_list li{
+	background: green;
+	margin: 20px 0px;
+	padding-top: 5px;
+	height: 30px;
+	text-align: center;
+	color: white;
+	cursor: move;
+	width: 150px;
+	overflow: hidden;
+}
+.dropped_group_list_li{
+	background: green;
+	text-align: center;
+	color: white;
+	list-style: none;
+	padding-top: 10px;
+	overflow: hidden;
+}
+#dropable_trainingsplan_table{
+	float: left;
+	margin-left: 200px;
+}
+#dropable_trainingsplan_table tr{
+	height: 50px;
+}
+#dropable_trainingsplan_table .time_cell{
+	font-weight: bold;
+}
+#dropable_trainingsplan_table .dropable_trainingsplan_table_cell{
+	height: 35px;
+	width: 160px;
+	border: 1px solid lightgray;
+	padding: 0;
+	margin: 0;
+}
+.hoverDroppable{
+	border: 1px solid black;
+}
+
 @media only print
 {
     table .was_participated_cell{

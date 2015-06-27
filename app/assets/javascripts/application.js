@@ -1,9 +1,11 @@
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
 //= require turbolinks
 //= require_tree .
 
 $(document).ready(function(){
+
 	if(window.location.pathname == "/dashboard"){
 		setInterval("updateDateTile();", 1000);
 	}
@@ -23,6 +25,44 @@ $(document).ready(function(){
 			$(".status_messages_wrapper").slideToggle(500);
 		});
 	}
+
+	var dragOpts = {
+		containment: "document",
+		cursor: "move",
+		helper: "clone",
+		revert: "invalid",
+		snap: true,
+		snapMode: "inner",
+		snapTolerance: 10,
+		zIndex: 2
+	}
+	$("#draggable_group_list li").draggable(dragOpts);
+	var dropOpts = {
+		accept: "#draggable_group_list li",
+		tolerance: "fit",
+		activate: function(typ,ui){
+			$(this).css("border","1px solid black");
+		},
+		deactivate: function(typ,ui){
+			$(this).css("border","1px solid lightgray");
+		},
+		over: function(typ,ui){
+			$(this).css("border","1px solid green");
+		},
+		out: function(typ,ui){
+			$(this).css("border","1px solid black");
+		},
+		drop: function(typ,ui){
+			$(this).css("border","none");
+			var cloneElement = ui.draggable.clone();
+			$(cloneElement).appendTo(this);
+			//$(this).droppable("destroy");
+			$(cloneElement).addClass("dropped_group_list_li");
+			$(cloneElement).css({top:"0px",left:"0px",bottom:"0px",right:"0px", display: "block", width:"100%",height:"40px"});
+			$(cloneElement).parent().attr("data-group",$(cloneElement).attr("data-group"));
+		}
+	}
+	$(".dropable_trainingsplan_table_cell").droppable(dropOpts);
 });
 
 function printTrainingTable(){

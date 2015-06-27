@@ -42,6 +42,9 @@ Rails.application.routes.draw do
   #SETTINGS ROUTES
   get "settings", to: "settings#index"
 
+  #TRAININGSPLAN ROUTES
+  resources :trainingsplan
+
   # STATIC PAGES
   static_pages = [:imprint]
   static_pages.each { |static_page| get static_page.to_s, to: "static#" + static_page.to_s, as: ("static_" + static_page.to_s).intern }

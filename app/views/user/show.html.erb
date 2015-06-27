@@ -31,7 +31,7 @@
 	<% total_given_group_lessons = 0.0 %>
 	<h2>Rechnung</h2>
 	<div class="scroll_vertical_enable">
-		<% @groups.each do |group| %>
+		<% @groups.all.order(:name).each do |group| %>
 			<% if group.price %>
 				<% @price_per_lesson = group.price.price_per_lesson %>
 				<% @discount_per_lesson = group.price.discount_per_lesson %>
@@ -51,7 +51,7 @@
 							<% customer_total_lessons << 0.0 %>
 							<% customer_total_costs << 0.0 %>
 						<% end %>
-						<th>Preis / Spieler</th>
+						<th>Preis / anw. Spieler</th>
 					</tr>
 				</thead>
 				<tbody>
