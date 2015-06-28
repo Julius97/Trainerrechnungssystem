@@ -3,7 +3,12 @@ class TrainingsplanController < ApplicationController
 	before_action -> { check_session(true,false) }
 
 	def index
-		@groups = Group.all.order :name
+		if !mobile_device?
+			@groups = Group.all.order :name
+		else
+			flash[:error] = "Zeitplan kann nur am Desktop-PC abgerufen werden!"
+			redirect_to dashboard_index_path
+		end
 	end
 
 	def create

@@ -56,6 +56,14 @@
 			</div>
 		</div>
 		<div class="tile_row">
+			<div class="tile tile_span_2">
+				<a href="/trainingsplan">
+					<div class="img_wrapper">
+						<h2>Zeitplan</h2>
+						<%= image_tag("kalender_pikto.png", height: "140", width: "140") %>
+					</div>
+				</a>
+			</div>
 			<% if @current_user.admin_permissions %>
 				<div class="tile tile_span_2">
 					<a href="/settings">
@@ -66,6 +74,8 @@
 					</a>
 				</div>
 			<% end %>
+		</div>
+		<div class="tile_row">
 			<div class="tile tile_span_1">
 				<a href="/contact">
 					<div class="inner_tile_wrapper">

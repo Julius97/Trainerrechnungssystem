@@ -500,6 +500,16 @@ fieldset legend{
 .hoverDroppable{
 	border: 1px solid black;
 }
+#information_box{
+	background: black;
+	position: absolute;
+	color: white;
+	border-radius: 5px;
+	padding: 2px 5px;
+	top: 0;
+	left: 0;
+	display: none;
+}
 
 @media only print
 {

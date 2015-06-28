@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  group_id: 1
+  wday: 1
+  start_time: 2015-06-28 10:24:16
+  end_time: 2015-06-28 10:24:16
+
+two:
+  group_id: 1
+  wday: 1
+  start_time: 2015-06-28 10:24:16
+  end_time: 2015-06-28 10:24:16

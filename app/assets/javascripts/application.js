@@ -57,14 +57,27 @@ $(document).ready(function(){
 			var cloneElement = ui.draggable.clone();
 			$(cloneElement).appendTo(this);
 			//$(this).droppable("destroy");
-			$(cloneElement).addClass("dropped_group_list_li").on("click",removeDroppedObj);
+			$(cloneElement).addClass("dropped_group_list_li").on("click",removeDroppedObj).on("mousemove",showInformationBox).on("mouseout",hideInformationBox);
 			$(cloneElement).css({top:"0px",left:"0px",bottom:"0px",right:"0px", display: "block", width:"100%",height:"40px"});
 			$(cloneElement).parent().attr("data-group",$(cloneElement).attr("data-group"));
 		}
 	}
 	$(".droppable_trainingsplan_table_cell").droppable(dropOpts);
 	$(".dropped_group_list_li").on("click",removeDroppedObj);
+	$(".dropped_group_list_li").on("mousemove",showInformationBox);
+	$(".dropped_group_list_li").on("mouseout",hideInformationBox);
 });
+
+function showInformationBox(e){
+	//alert("Test");
+	$("#information_box").show();
+	$("#information_box").css("top",e.pageY+10+"px");
+	$("#information_box").css("left",e.pageX+10+"px");
+}
+
+function hideInformationBox(){
+	$("#information_box").hide();
+}
 
 function removeDroppedObj(){
 	if(confirm($(this).text() + " - Eintrag entfernen?")){
@@ -87,6 +100,10 @@ function saveTrainingsPlan(){
 			});
 		});
 	}
+}
+
+function resetTrainingsPlan(){
+	if(confirm("Wirklich zurücksetzen ohne zu speichern?")) location.reload();
 }
 
 function printTrainingTable(){
