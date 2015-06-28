@@ -1,10 +1,11 @@
 <h1>Trainingsplan</h1>
 <ul id="draggable_group_list">
+	<h3>Gruppen</h3>
 	<% @groups.each do |group| %>
-		<li data-group="<%= group.id %>"><%= group.name %></li>
+		<li style="background:<%= group.color_code %>" data-group="<%= group.id %>"><%= group.name %></li>
 	<% end %>
 </ul>
-<table id="dropable_trainingsplan_table">
+<table id="droppable_trainingsplan_table">
 	<thead>
 		<tr>
 			<th>Zeit</th>
@@ -17,41 +18,26 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<td class="time_cell">14-15</td>
-			<% 6.times do |i| %>
-				<td data-group="-1" data-wday="<%= i + 1 %>" data-start="14" data-end="15" class="dropable_trainingsplan_table_cell"></td>
-			<% end %>
-		</tr>
-		<tr>
-			<td class="time_cell">15-16</td>
-			<% 6.times do |i| %>
-				<td data-group="-1" data-wday="<%= i + 1 %>" data-start="15" data-end="16" class="dropable_trainingsplan_table_cell"></td>
-			<% end %>
-		</tr>
-		<tr>
-			<td class="time_cell">16-17</td>
-			<% 6.times do |i| %>
-				<td data-group="-1" data-wday="<%= i + 1 %>" data-start="16" data-end="17" class="dropable_trainingsplan_table_cell"></td>
-			<% end %>
-		</tr>
-		<tr>
-			<td class="time_cell">17-18</td>
-			<% 6.times do |i| %>
-				<td data-group="-1" data-wday="<%= i + 1 %>" data-start="17" data-end="18" class="dropable_trainingsplan_table_cell"></td>
-			<% end %>
-		</tr>
-		<tr>
-			<td class="time_cell">18-19</td>
-			<% 6.times do |i| %>
-				<td data-group="-1" data-wday="<%= i + 1 %>" data-start="18" data-end="19" class="dropable_trainingsplan_table_cell"></td>
-			<% end %>
-		</tr>
-		<tr class="time_cell">
-			<td>19-20</td>
-			<% 6.times do |i| %>
-				<td data-group="-1" class="dropable_trainingsplan_table_cell"></td>
-			<% end %>
-		</tr>
+		<% 7.times do |k| %>
+			<tr>
+			<% start_hour = 13 %>
+				<td class="time_cell"><%= (start_hour+k).to_s + " - " + (start_hour+k+1).to_s %></td>
+				<% 6.times do |i| %>
+					<% start_time = Time.new(2015,1,1,k+start_hour,00,00) %>
+					<% end_time = Time.new(2015,1,1,k+start_hour+1,00,00) %>
+					<% if Trainingsplan.where(:wday => i+1, :start_time => start_time, :end_time => end_time).count > 0 %>
+						<% training_group = Trainingsplan.where(:wday => i+1, :start_time => start_time, :end_time => end_time).first %>
+						<td data-group="<%= training_group.group_id %>" data-wday="<%= i + 1 %>" data-start="<%= k+start_hour %>" data-end="<%= k+start_hour+1 %>" class="droppable_trainingsplan_table_cell">
+							<li style="background:<%= training_group.group.color_code %>;" class="dropped_group_list_li"><%= training_group.group.name %></li>
+						</td>
+					<% else %>
+						<td data-group="-1" data-wday="<%= i + 1 %>" data-start="<%= k+start_hour %>" data-end="<%= k+start_hour+1 %>" class="droppable_trainingsplan_table_cell"></td>
+					<% end %>
+				<% end %>
+			</tr>
+		<% end %>
 	</tbody>
 </table>
+<p style="clear:both;margin-left:370px;">
+	<input type="submit" value="Speichern" onclick="saveTrainingsPlan();" />
+</p>

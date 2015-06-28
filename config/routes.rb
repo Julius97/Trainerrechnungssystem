@@ -44,6 +44,7 @@ Rails.application.routes.draw do
 
   #TRAININGSPLAN ROUTES
   resources :trainingsplan
+  post "clean_trainingsplan_before_update", to: "trainingsplan#clean_trainingsplan_before_update"
 
   # STATIC PAGES
   static_pages = [:imprint]

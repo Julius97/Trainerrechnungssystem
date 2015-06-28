@@ -47,7 +47,7 @@ $(document).ready(function(){
 			$(this).css("border","1px solid lightgray");
 		},
 		over: function(typ,ui){
-			$(this).css("border","1px solid green");
+			$(this).css("border","1px solid orange");
 		},
 		out: function(typ,ui){
 			$(this).css("border","1px solid black");
@@ -57,13 +57,37 @@ $(document).ready(function(){
 			var cloneElement = ui.draggable.clone();
 			$(cloneElement).appendTo(this);
 			//$(this).droppable("destroy");
-			$(cloneElement).addClass("dropped_group_list_li");
+			$(cloneElement).addClass("dropped_group_list_li").on("click",removeDroppedObj);
 			$(cloneElement).css({top:"0px",left:"0px",bottom:"0px",right:"0px", display: "block", width:"100%",height:"40px"});
 			$(cloneElement).parent().attr("data-group",$(cloneElement).attr("data-group"));
 		}
 	}
-	$(".dropable_trainingsplan_table_cell").droppable(dropOpts);
+	$(".droppable_trainingsplan_table_cell").droppable(dropOpts);
+	$(".dropped_group_list_li").on("click",removeDroppedObj);
 });
+
+function removeDroppedObj(){
+	if(confirm($(this).text() + " - Eintrag entfernen?")){
+		$(this).parent().attr("data-group","-1");
+		$(this).remove();
+	}
+}
+
+function saveTrainingsPlan(){
+	if(confirm("Kompletter Trainingsplan wird überschrieben! Wirklich speichern?")){
+		$.post("/clean_trainingsplan_before_update").done(function(){
+			$(".droppable_trainingsplan_table_cell").each(function(){
+				if($(this).attr("data-group") != "-1"){
+					var group_id = parseInt($(this).attr("data-group"));
+					var wday = parseInt($(this).attr("data-wday"));
+					var start = parseInt($(this).attr("data-start"));
+					var end = parseInt($(this).attr("data-end"));
+					$.post("/trainingsplan",{group_id:group_id, wday:wday, start:start, end:end});
+				}
+			});
+		});
+	}
+}
 
 function printTrainingTable(){
 	var restorePage = document.body.innerHTML;
