@@ -10,6 +10,12 @@
 	<% else %>
 		<li>Kosten: Für diese Gruppe wurde noch kein Preis eingetragen. <%= link_to "Hier Preis eintragen", new_price_path %></li>
 	<% end %>
+	<h3>Trainingszeiten</h3>
+	<ul>
+	<% @group.trainingsplans.each do |trainings_time| %>
+		<li><%= @wdays[trainings_time.wday] + " - " + trainings_time.start_time.strftime("%H:%M") + " bis " + trainings_time.end_time.strftime("%H:%M Uhr") %></li>
+	<% end %>
+	</ul>
 	<h3>Spieler</h3>
 	<% if @group.groupclassifications.count > 0 %>
 		<ul class="counting_ul">

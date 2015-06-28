@@ -23,8 +23,8 @@
 			<% start_hour = 13 %>
 				<td class="time_cell"><%= (start_hour+k).to_s + " - " + (start_hour+k+1).to_s %></td>
 				<% 6.times do |i| %>
-					<% start_time = Time.new(2015,1,1,k+start_hour,00,00) %>
-					<% end_time = Time.new(2015,1,1,k+start_hour+1,00,00) %>
+					<% start_time = Time.new(2015,1,1,k+start_hour,00,00,0) %>
+					<% end_time = Time.new(2015,1,1,k+start_hour+1,00,00,0) %>
 					<% if Trainingsplan.where(:wday => i+1, :start_time => start_time, :end_time => end_time).count > 0 %>
 						<% training_group = Trainingsplan.where(:wday => i+1, :start_time => start_time, :end_time => end_time).first %>
 						<td data-group="<%= training_group.group_id %>" data-wday="<%= i + 1 %>" data-start="<%= k+start_hour %>" data-end="<%= k+start_hour+1 %>" class="droppable_trainingsplan_table_cell">

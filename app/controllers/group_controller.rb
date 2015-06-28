@@ -13,6 +13,7 @@ class GroupController < ApplicationController
 				if !Group.find_by_id(params[:id]).price.nil?
 					@price_per_lesson = @group.price.price_per_lesson
 					@discount_per_lesson = @group.price.discount_per_lesson
+					@wdays = ["Sonntags","Montags","Dienstags","Mittwochs","Donnerstags","Freitags","Samstags"]
 				end
 			else
 				flash[:error] = "Fehler im System: Gruppe konnte nicht gefunden werden"
