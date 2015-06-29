@@ -21,5 +21,8 @@
 		<%= check_box_tag "for_free" %>
 	<% end %>
 	<br /><br />
+	<%= label_tag "color_code" %>
+	<%= color_field_tag "color_code", @group.color_code %>
+	<br /><br />
 	<%= submit_tag "Bearbeiten" %>
 <% end %>
