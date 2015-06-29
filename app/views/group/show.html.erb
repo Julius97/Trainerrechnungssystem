@@ -1,6 +1,7 @@
 <h1><%= @group.name %></h1>
 <ul>
 	<li>Bezeichnung: <%= @group.name %></li>
+	<li>Kennfarbe: <span style="background:<%= @group.color_code %>;padding:3px 6px;"><%= @group.color_code %></span></li>
 	<li>Trainer: <%= @group.trainer.user.name %></li>
 	<% if @group.price %>
 		<li>Trainerkosten: <%= @group.price.price_per_lesson %> € / h</li>

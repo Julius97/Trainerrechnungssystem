@@ -1,6 +1,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require jquery.turbolinks
 //= require turbolinks
 //= require_tree .
 
@@ -8,6 +9,10 @@ $(document).ready(function(){
 
 	if(window.location.pathname == "/dashboard"){
 		setInterval("updateDateTile();", 1000);
+	}
+
+	if(window.location.pathname == "/trainingsplan"){
+		//location.reload();
 	}
 
 	if($(".status_messages_wrapper").length > 0){
