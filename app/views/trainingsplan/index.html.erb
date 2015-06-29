@@ -26,9 +26,15 @@
 					<% start_time = Time.new(2015,1,1,k+start_hour,00,00,0) %>
 					<% end_time = Time.new(2015,1,1,k+start_hour+1,00,00,0) %>
 					<% if Trainingsplan.where(:wday => i+1, :start_time => start_time, :end_time => end_time).count > 0 %>
-						<% training_group = Trainingsplan.where(:wday => i+1, :start_time => start_time, :end_time => end_time).first %>
-						<td data-group="<%= training_group.group_id %>" data-wday="<%= i + 1 %>" data-start="<%= k+start_hour %>" data-end="<%= k+start_hour+1 %>" class="droppable_trainingsplan_table_cell">
-							<li style="background:<%= training_group.group.color_code %>;" class="dropped_group_list_li"><%= training_group.group.name %></li>
+						<% training_groups_ids = Trainingsplan.where(:wday => i+1, :start_time => start_time, :end_time => end_time).pluck(:group_id) %>
+						<% training_groups_ids_str = "" %>
+						<% training_groups_ids.each do|x| %>
+							<% training_groups_ids_str += x.to_s + ";" %>
+						<% end %>
+						<td data-group="<%= training_groups_ids_str %>" data-wday="<%= i + 1 %>" data-start="<%= k+start_hour %>" data-end="<%= k+start_hour+1 %>" class="droppable_trainingsplan_table_cell">
+							<% Trainingsplan.where(:wday => i+1, :start_time => start_time, :end_time => end_time).each do |training_group| %>
+								<li data-group="<%= training_group.group_id %>" style="background:<%= training_group.group.color_code %>;" class="dropped_group_list_li"><%= training_group.group.name %></li>
+							<% end %>
 						</td>
 					<% else %>
 						<td data-group="-1" data-wday="<%= i + 1 %>" data-start="<%= k+start_hour %>" data-end="<%= k+start_hour+1 %>" class="droppable_trainingsplan_table_cell"></td>
