@@ -35,7 +35,7 @@
 	<h2>Letzte 10 Logins</h2>
 	<ul>
 		<% Login.order(created_at: :desc).limit(10).each do |login| %>
-			<li><%= link_to login.user.name, user_path(login.user.id) %> am <%= login.created_at.strftime("%d.%m.%Y - %H:%M Uhr") %></li>
+			<li><%= link_to login.user.name, user_path(login.user.id) %> am <%= (login.created_at + Time.now.utc_offset).strftime("%d.%m.%Y - %H:%M Uhr") %></li>
 		<% end %>
 	</ul>
 </p>
