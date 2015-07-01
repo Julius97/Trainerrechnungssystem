@@ -28,7 +28,10 @@
 <% end %>
 <% if @user.trainer %>
 <div id="bill">
-	<% total_given_group_lessons = 0.0 %>
+	<% overall_given_group_lessons = 0.0 %>
+	<% overall_customer_costs = 0.0 %>
+	<% overall_club_costs = 0.0 %>
+	<% overall_trainer_costs = 0.0 %>
 	<h2>Rechnung</h2>
 	<div class="scroll_vertical_enable">
 		<% @groups.all.order(:name).each do |group| %>
@@ -138,7 +141,10 @@
 								<b>Rechnungsbetrag</b>
 							</td>
 							<td>
-								<% total_given_group_lessons += total_lessons %>
+								<% overall_given_group_lessons += total_lessons %>
+								<% overall_club_costs += (total_lessons * @discount_per_lesson).round(1) %>
+								<% overall_customer_costs += customer_total_costs.sum.round(1) %>
+								<% overall_trainer_costs += total_lessons * @price_per_lesson %>
 								<%= (total_lessons * @price_per_lesson).to_s + " €" %>
 							</td>
 							<% group.groupclassifications.each_with_index do |groupclass,i| %>
@@ -179,19 +185,19 @@
 	<table>
 		<tr>
 			<td><b>Stundenanzahl</b></td>
-			<td><%= total_given_group_lessons.to_s + " h" %></td>
+			<td><%= overall_given_group_lessons.to_s + " h" %></td>
 		</tr>
 		<tr>
 			<td><b>Spieler</b></td>
-			<td><%= (total_given_group_lessons * @price_per_lesson) - (total_given_group_lessons * @discount_per_lesson) %></td>
+			<td><%= overall_customer_costs.to_s + " €" %></td>
 		</tr>
 		<tr>
 			<td><b>Verein:</b></td>
-			<td><%= (total_given_group_lessons * @discount_per_lesson).to_s + " €" %></td>
+			<td><%= overall_club_costs.to_s + " €" %></td>
 		</tr>
 		<tr>
 			<td><b>Gesamt:</b></td>
-			<td><%= (total_given_group_lessons * @price_per_lesson).to_s + " €" %></td>
+			<td><%= overall_trainer_costs.to_s + " €" %></td>
 		</tr>
 	</table>
 	<p>
