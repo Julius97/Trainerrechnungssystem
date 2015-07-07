@@ -32,7 +32,7 @@ class SessionController < ApplicationController
 	end
 
 	def destroy
-		cookies.signed[:user_id] = nil
+		cookies.delete :user_id
 		flash[:notice] = "Logout erfolgreich"
 		redirect_to login_path
 	end

@@ -7,16 +7,16 @@
 		<li>Trainer: <%= Trainer.all.count.to_s %></li>
 		<li>Spieler: <%= Customer.all.count.to_s %></li>
 		<li>Gruppen: <%= Group.all.count.to_s %></li>
-		<li>Durchschnittliche Gruppenstärke: <%= (Groupclassification.all.count.to_f / Group.all.count.to_f).to_s %> Spieler</li>
-		<li>Durchschnittliche Gruppenanzahl pro Trainer: <%= (Group.all.count.to_f / Trainer.all.count.to_f).to_s %> Gruppen</li>
+		<li>Durchschnittliche Gruppenstärke: <%= (Groupclassification.all.count.to_f / Group.all.count.to_f).round(2).to_s %> Spieler</li>
+		<li>Durchschnittliche Gruppenanzahl pro Trainer: <%= (Group.all.count.to_f / Trainer.all.count.to_f).round(2).to_s %> Gruppen</li>
 	</ul>
 </p>
 <p>
 	<h2>Logins</h2>
 	<ul>
 		<li>Gesamt: <%= Login.count %></li>
-		<li>Davon Desktop: <%= Login.all.where(:mobile_device => false).count %> (<%= (Login.all.where(:mobile_device => false).count.to_f / Login.count.to_f) * 100.0 %>%)</li>
-		<li>Davon Mobil: <%= Login.all.where(:mobile_device => true).count %> (<%= (Login.all.where(:mobile_device => true).count.to_f / Login.count.to_f) * 100.0 %>%)</li>
+		<li>Davon Desktop: <%= Login.all.where(:mobile_device => false).count %> (<%= (Login.all.where(:mobile_device => false).count.to_f / Login.count.to_f).round(2) * 100.0 %>%)</li>
+		<li>Davon Mobil: <%= Login.all.where(:mobile_device => true).count %> (<%= (Login.all.where(:mobile_device => true).count.to_f / Login.count.to_f).round(2) * 100.0 %>%)</li>
 		<li>Letzte Stunde: <%= Login.last_hour.count %></li>
 		<li>Heute: <%= Login.today.count %></li>
 		<li>Letzte Woche: <%= Login.last_week.count %></li>
