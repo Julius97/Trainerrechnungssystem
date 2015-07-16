@@ -1,0 +1,7 @@
+<h1><%= @accounting_group.name %> bearbeiten</h1>
+<%= form_tag accounting_group_path, method: :put do %>
+	<%= hidden_field_tag "accounting_group_id", @accounting_group.id %>
+	<%= label_tag "name", "Bezeichnung" %><br />
+	<%= text_field_tag "name", @accounting_group.name %><br /><br />
+	<%= submit_tag "Bearbeiten" %>
+<% end %>

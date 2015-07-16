@@ -138,10 +138,10 @@ function printTrainingTable(){
 	document.body.innerHTML = restorePage;
 }
 
-function printBill(){
+function printBill(partialId){
 	var restorePage = document.body.innerHTML;
-	$("#bill input").remove();
-	var printContent = document.getElementById("bill").outerHTML;
+	$(".bill input").remove();
+	var printContent = document.getElementById(partialId).outerHTML;
 	document.body.innerHTML = printContent;
 	window.print();
 	document.body.innerHTML = restorePage;

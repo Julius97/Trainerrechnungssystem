@@ -1,0 +1,6 @@
+<h1>Neue Abrechnungsgruppe</h1>
+<%= form_tag accounting_group_index_path, method: :post do %>
+	<%= label_tag "name", "Bezeichnung" %><br />
+	<%= text_field_tag "name" %><br /><br />
+	<%= submit_tag "Erstellen" %>
+<% end %>

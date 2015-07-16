@@ -25,6 +25,9 @@ Rails.application.routes.draw do
   resources :group
   post "add_customer_to_group", to: "group#add_customer_to_group"
 
+  #ACCOUNTING GROUP ROUTES
+  resources :accounting_group
+
   #GROUPCLASSIFICATION ROUTES
   resources :groupclassification
 

@@ -3,6 +3,16 @@
 	<%= hidden_field_tag "group_id", @group.id %>
 	<%= label_tag "name", "Bezeichnung" %><br />
 	<%= text_field_tag "name", @group.name %><br /><br />
+	<%= label_tag "accounting_group_id", "Trainer" %>
+	<select name="accounting_group_id">
+		<% AccountingGroup.all.each do |accountingGroup| %>
+			<% if accountingGroup.id == @group.accounting_group.id %>
+				<option value="<%= accountingGroup.id %>" selected="selected"><%= accountingGroup.name %></option>
+			<% else %>
+				<option value="<%= accountingGroup.id %>"><%= accountingGroup.name %></option>
+			<% end %>
+		<% end %>
+	</select><br /><br />
 	<%= label_tag "trainer_id", "Trainer" %>
 	<select name="trainer_id">
 		<% Trainer.all.each do |trainer| %>

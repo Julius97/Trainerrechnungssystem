@@ -2,6 +2,12 @@
 <%= form_tag group_index_path, method: :post do %>
 	<%= label_tag "name", "Bezeichnung" %><br />
 	<%= text_field_tag "name" %><br /><br />
+	<%= label_tag "accounting_group_id", "Abrechnungsgruppe" %>
+	<select name="accounting_group_id">
+		<% AccountingGroup.all.each do |accountingGroup| %>
+			<option value="<%= accountingGroup.id %>"><%= accountingGroup.name %></option>
+		<% end %>
+	</select><br /><br />
 	<%= label_tag "trainer_id", "Trainer" %>
 	<select name="trainer_id">
 		<% Trainer.all.each do |trainer| %>

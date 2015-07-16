@@ -30,12 +30,16 @@ class GroupController < ApplicationController
 	end
 
 	def create
-		if !params[:name].blank? && !params[:trainer_id].blank? && !params[:color_code].blank?
+		if !params[:name].blank? && !params[:trainer_id].blank? && !params[:color_code].blank? && !params[:accounting_group_id].blank?
 			if !Group.find_by_name(params[:name]) && Trainer.find_by_id(params[:trainer_id].to_i)
-				for_free = false
-				for_free = true if !params[:for_free].blank?
-				group = Group.create :color_code => params[:color_code], :name => params[:name], :trainer_id => params[:trainer_id].to_i, :for_free => for_free
-				flash[:notice] = group.name + " erfolgreich erstellt"
+				if AccountingGroup.find_by_id params[:accounting_group_id]
+					for_free = false
+					for_free = true if !params[:for_free].blank?
+					group = Group.create :color_code => params[:color_code], :name => params[:name], :trainer_id => params[:trainer_id].to_i, :for_free => for_free, :accounting_group_id => params[:accounting_group_id].to_i
+					flash[:notice] = group.name + " erfolgreich erstellt"
+				else
+					flash[:error] = "Fehler im System: Abrechnungsgruppe konnte nicht gefunden werden"
+				end
 			else
 				flash[:error] = Group.find_by_name(params[:name]).name + " existiert bereits"
 			end
@@ -60,12 +64,16 @@ class GroupController < ApplicationController
 	end
 
 	def update
-		if !params[:group_id]. blank? && !params[:name].blank? && !params[:trainer_id].blank? && !params[:color_code].blank?
+		if !params[:group_id]. blank? && !params[:name].blank? && !params[:trainer_id].blank? && !params[:color_code].blank? && !params[:accounting_group_id].blank?
 			if Group.find_by_id params[:group_id]
-				for_free = false
-				for_free = true if !params[:for_free].blank?
-				Group.find_by_id(params[:group_id]).update_attributes :color_code => params[:color_code], :trainer_id => params[:trainer_id].to_i, :name => params[:name], :for_free => for_free
-				flash[:notice] = Group.find_by_id(params[:id]).name + " erfolgreich bearbeitet"
+				if AccountingGroup.find_by_id params[:accounting_group_id]
+					for_free = false
+					for_free = true if !params[:for_free].blank?
+					Group.find_by_id(params[:group_id]).update_attributes :color_code => params[:color_code], :trainer_id => params[:trainer_id].to_i, :name => params[:name], :for_free => for_free, :accounting_group_id => params[:accounting_group_id].to_i
+					flash[:notice] = Group.find_by_id(params[:id]).name + " erfolgreich bearbeitet"
+				else
+					flash[:error] = "Fehler im System: Abrechnungsgruppe konnte nicht gefunden werden"
+				end
 			else
 				flash[:error] = "Fehler im System: Gruppe konnte nicht gefunden werden"
 			end

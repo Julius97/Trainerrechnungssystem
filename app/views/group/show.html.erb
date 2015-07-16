@@ -1,6 +1,7 @@
 <h1><%= @group.name %></h1>
 <ul>
 	<li>Bezeichnung: <%= @group.name %></li>
+	<li>Abrechnungsgruppe: <%= @group.accounting_group.name %></li>
 	<li>Kennfarbe: <span style="background:<%= @group.color_code %>;padding:3px 6px;"><%= @group.color_code %></span></li>
 	<li>Trainer: <%= @group.trainer.user.name %></li>
 	<% if @group.price %>
@@ -33,7 +34,7 @@
 	<table id="trainings_table">
 		<thead>
 			<tr>
-				<th style="font-size:20px;" colspan="<%= (3 + @group.groupclassifications.count).to_s %>"><%= @group.name %></th>
+				<th style="font-size:20px;" colspan="<%= (3 + @group.groupclassifications.count).to_s %>"><%= @group.name + " - " + @group.accounting_group.name %></th>
 			</tr>
 			<tr>
 				<th>Datum</th>

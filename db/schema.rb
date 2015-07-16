@@ -11,7 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150628082416) do
+ActiveRecord::Schema.define(version: 20150714100346) do
+
+  create_table "accounting_groups", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "customers", force: true do |t|
     t.string   "first_name"
@@ -34,6 +40,7 @@ ActiveRecord::Schema.define(version: 20150628082416) do
     t.string   "name"
     t.boolean  "for_free"
     t.string   "color_code"
+    t.integer  "accounting_group_id"
   end
 
   create_table "logins", force: true do |t|

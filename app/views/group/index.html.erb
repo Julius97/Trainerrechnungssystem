@@ -1,23 +1,33 @@
 <h1>Trainingsgruppen</h1>
 <p>
-	<%= link_to "Neue Gruppe erstellen", new_group_path %>
+	<%= link_to "Neue Gruppe erstellen", new_group_path %><br />
+	<%= link_to "Neue Abrechnungsgruppe erstellen", new_accounting_group_path %>
 </p>
-<table>
-	<thead>
-		<tr>
-			<th>Bezeichnung</th>
-			<th>Aktionen</th>
-		</tr>
-	</thead>
-	<tbody>
-		<% @groups.each do |group| %>
-		<tr>
-			<td><%= link_to group.name + " (" + group.trainer.user.name + ")", group_path(group.id) %></td>
-			<td class="actions_cell">
-				<%= link_to "Bearbeiten", edit_group_path(group.id) %> | 
-				<%= link_to "Löschen", group_path(group.id), method: :delete, data: { confirm: "Wirklich löschen?" } %>
-			</td>
-		</tr>
-	<% end %>
-	</tbody>
-</table>
+<% AccountingGroup.all.each do |accountingGroup| %>
+	<h2><%= accountingGroup.name %></h2>
+	<p>
+	<%= link_to "Abrechnungsgruppe bearbeiten", edit_accounting_group_path(accountingGroup.id) %><br />
+	<%= link_to "Abrechnungsgruppe löschen", accounting_group_path(accountingGroup.id), method: :delete, data: { confirm: "Wirklich löschen?" } %>
+	</p>
+	<p>
+		<table>
+			<thead>
+				<tr>
+					<th>Bezeichnung</th>
+					<th>Aktionen</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% @groups.where(:accounting_group_id => accountingGroup.id).each do |group| %>
+				<tr>
+					<td><%= link_to group.name + " (" + group.trainer.user.name + ")", group_path(group.id) %></td>
+					<td class="actions_cell">
+						<%= link_to "Bearbeiten", edit_group_path(group.id) %> | 
+						<%= link_to "Löschen", group_path(group.id), method: :delete, data: { confirm: "Wirklich löschen?" } %>
+					</td>
+				</tr>
+			<% end %>
+			</tbody>
+		</table>
+	</p>
+<% end %>
