@@ -1,8 +1,8 @@
 class CreateAccountInformations < ActiveRecord::Migration
   def change
     create_table :account_informations do |t|
-      t.integer :account_number, :limit => 9
-      t.integer :bank_code, :limit => 8
+      t.integer :account_number
+      t.integer :bank_code
       t.string :bic
       t.string :iban
       t.string :credit_institution
