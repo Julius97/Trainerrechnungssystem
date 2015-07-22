@@ -49,6 +49,9 @@ Rails.application.routes.draw do
   resources :trainingsplan
   post "clean_trainingsplan_before_update", to: "trainingsplan#clean_trainingsplan_before_update"
 
+  #ACCOUNT INFORMATION ROUTES
+  resources :account_informations
+
   # STATIC PAGES
   static_pages = [:imprint]
   static_pages.each { |static_page| get static_page.to_s, to: "static#" + static_page.to_s, as: ("static_" + static_page.to_s).intern }

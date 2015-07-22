@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
 
 	has_one :trainer
+	has_one :account_information
 	has_many :logins
 
 	attr_accessor :password

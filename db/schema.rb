@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150714100346) do
+ActiveRecord::Schema.define(version: 20150722150314) do
+
+  create_table "account_informations", force: true do |t|
+    t.string   "account_number",     limit: 9
+    t.string   "bank_code",          limit: 8
+    t.string   "bic"
+    t.string   "iban"
+    t.string   "credit_institution"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
 
   create_table "accounting_groups", force: true do |t|
     t.string   "name"

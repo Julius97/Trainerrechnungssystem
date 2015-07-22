@@ -27,6 +27,16 @@
 	</p>
 <% end %>
 <% if @user.trainer %>
+<p>
+<h2 class="bigger_h2_heading">Kontoverbindung</h2>
+<ul>
+	<li>Kontonummer: <%= @user.account_information.account_number.to_s %></li>
+	<li>Bankleitzahl: <%= @user.account_information.bank_code.to_s %></li>
+	<li>IBAN: <%= @user.account_information.iban.to_s %></li>
+	<li>BIC: <%= @user.account_information.bic.to_s %></li>
+	<li>Kreditinstitut: <%= @user.account_information.credit_institution.to_s %></li>
+</ul>
+</p>
 <% total_balance_lessons = 0.0 %>
 <% total_balance_customer_costs = 0.0 %>
 <% total_balance_club_costs = 0.0 %>
