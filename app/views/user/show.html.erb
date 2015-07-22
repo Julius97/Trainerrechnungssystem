@@ -29,13 +29,39 @@
 <% if @user.trainer %>
 <p>
 <h2 class="bigger_h2_heading">Kontoverbindung</h2>
-<ul>
-	<li>Kontonummer: <%= @user.account_information.account_number.to_s %></li>
-	<li>Bankleitzahl: <%= @user.account_information.bank_code.to_s %></li>
-	<li>IBAN: <%= @user.account_information.iban.to_s %></li>
-	<li>BIC: <%= @user.account_information.bic.to_s %></li>
-	<li>Kreditinstitut: <%= @user.account_information.credit_institution.to_s %></li>
-</ul>
+<% if @user.account_information %>
+	<ul>
+		<li><b>Inhaber:</b> <%= @user.name %></li>
+		<li><b>Kontonummer:</b> <%= @user.account_information.account_number.to_s %></li>
+		<li><b>Bankleitzahl:</b> <%= @user.account_information.bank_code.to_s %></li>
+		<li><b>IBAN:</b> <%= @user.account_information.iban.to_s %></li>
+		<li><b>BIC:</b> <%= @user.account_information.bic.to_s %></li>
+		<li><b>Kreditinstitut:</b> <%= @user.account_information.credit_institution.to_s %></li>
+	</ul>
+	<br />
+	<%= link_to "Kontoverbindung bearbeiten", edit_account_information_path(@user.account_information.id) %><br />
+	<%= link_to "Kontoverbindung löschen", account_information_path(@user.account_information.id), method: :delete, data: { confirm: "Wirklich löschen?" } %>
+<% else %>
+	<p>Keine Kontoverbindung vorhanden.</p>
+	<p>
+		<h2>Neue Kontoverbindung erstellen</h2>
+		<br />
+		<%= form_tag account_information_index_path, method: :post do %>
+			<%= hidden_field_tag "user_id", @user.id %>
+			<%= label_tag "account_number", "Kontonummer" %><br />
+			<%= text_field_tag "account_number" %><br /><br />
+			<%= label_tag "bank_code", "Bankleitzahl" %><br />
+			<%= text_field_tag "bank_code" %><br /><br />
+			<%= label_tag "iban", "IBAN" %><br />
+			<%= text_field_tag "iban" %><br /><br />
+			<%= label_tag "bic", "BIC" %><br />
+			<%= text_field_tag "bic" %><br /><br />
+			<%= label_tag "credit_institution", "Kreditinstitut" %><br />
+			<%= text_field_tag "credit_institution" %><br /><br />
+			<%= submit_tag "Speichern" %>
+		<% end %>
+	</p>
+<% end %>
 </p>
 <% total_balance_lessons = 0.0 %>
 <% total_balance_customer_costs = 0.0 %>
@@ -212,14 +238,29 @@
 					<td><%= overall_customer_costs.to_s + " €" %></td>
 				</tr>
 				<tr>
-					<td><b>Verein:</b></td>
+					<td><b>Verein</b></td>
 					<td><%= overall_club_costs.to_s + " €" %></td>
 				</tr>
 				<tr>
-					<td><b>Gesamt:</b></td>
+					<td><b>Gesamt</b></td>
 					<td><%= overall_trainer_costs.to_s + " €" %></td>
 				</tr>
 			</table>
+			<p>
+				<h3>Kontoverbindung</h2>
+				<% if @user.account_information %>
+					<ul>
+						<li><b>Empfänger:</b> <%= @user.name %></li>
+						<li><b>Kontonummer:</b> <%= @user.account_information.account_number.to_s %></li>
+						<li><b>Bankleitzahl:</b> <%= @user.account_information.bank_code.to_s %></li>
+						<li><b>IBAN:</b> <%= @user.account_information.iban.to_s %></li>
+						<li><b>BIC:</b> <%= @user.account_information.bic.to_s %></li>
+						<li><b>Kreditinstitut:</b> <%= @user.account_information.credit_institution.to_s %></li>
+					</ul>
+				<% else %>
+					Keine 
+				<% end %>
+			</p>
 			<p>
 				<input type="submit" value="Rechnung drucken" onclick="printBill('bill_<%= accGroupIndex.to_s %>');" />
 			</p>
@@ -229,20 +270,20 @@
 <% end %>
 <h2>Geamtbilanz für Trainer</h2>
 <table>
-				<tr>
-					<td><b>Stundenanzahl</b></td>
-					<td><%= total_balance_lessons.to_s + " h" %></td>
-				</tr>
-				<tr>
-					<td><b>Spieler</b></td>
-					<td><%= total_balance_customer_costs.to_s + " €" %></td>
-				</tr>
-				<tr>
-					<td><b>Verein:</b></td>
-					<td><%= total_balance_club_costs.to_s + " €" %></td>
-				</tr>
-				<tr>
-					<td><b>Gesamt:</b></td>
-					<td><%= total_balance_trainer_costs.to_s + " €" %></td>
-				</tr>
-			</table>
+	<tr>
+		<td><b>Stundenanzahl</b></td>
+		<td><%= total_balance_lessons.to_s + " h" %></td>
+	</tr>
+	<tr>
+		<td><b>Spieler</b></td>
+		<td><%= total_balance_customer_costs.to_s + " €" %></td>
+	</tr>
+	<tr>
+		<td><b>Verein</b></td>
+		<td><%= total_balance_club_costs.to_s + " €" %></td>
+	</tr>
+	<tr>
+		<td><b>Gesamt</b></td>
+		<td><%= total_balance_trainer_costs.to_s + " €" %></td>
+	</tr>
+</table>

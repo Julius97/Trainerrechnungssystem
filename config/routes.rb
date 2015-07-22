@@ -50,7 +50,7 @@ Rails.application.routes.draw do
   post "clean_trainingsplan_before_update", to: "trainingsplan#clean_trainingsplan_before_update"
 
   #ACCOUNT INFORMATION ROUTES
-  resources :account_informations
+  resources :account_information
 
   # STATIC PAGES
   static_pages = [:imprint]

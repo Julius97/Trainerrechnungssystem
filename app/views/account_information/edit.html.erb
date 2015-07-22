@@ -1,1 +1,19 @@
-<h1>Kontoverbindung bearbeiten</h1>
+<h1>Kontoverbindung von <%= @account_information.user.name %> bearbeiten</h1>
+<p>
+	<%= label_tag "", "Inhaber" %> <%= @account_information.user.name %><br />
+	<%= form_tag account_information_path, method: :put do %>
+		<%= hidden_field_tag "account_information_id", @account_information.id %>
+		<%= hidden_field_tag "user_id", @account_information.user.id %>
+		<%= label_tag "account_number", "Kontonummer" %><br />
+		<%= text_field_tag "account_number", @account_information.account_number %><br /><br />
+		<%= label_tag "bank_code", "Bankleitzahl" %><br />
+		<%= text_field_tag "bank_code", @account_information.bank_code %><br /><br />
+		<%= label_tag "iban", "IBAN" %><br />
+		<%= text_field_tag "iban", @account_information.iban %><br /><br />
+		<%= label_tag "bic", "BIC" %><br />
+		<%= text_field_tag "bic", @account_information.bic %><br /><br />
+		<%= label_tag "credit_institution", "Kreditinstitut" %><br />
+		<%= text_field_tag "credit_institution", @account_information.credit_institution %><br /><br />
+		<%= submit_tag "Bearbeiten" %>
+	<% end %>
+</p>
