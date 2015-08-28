@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150722150314) do
+ActiveRecord::Schema.define(version: 20150828070502) do
 
   create_table "account_informations", force: true do |t|
     t.string   "account_number",     limit: 9
@@ -26,6 +26,18 @@ ActiveRecord::Schema.define(version: 20150722150314) do
 
   create_table "accounting_groups", force: true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "additional_trainings", force: true do |t|
+    t.integer  "training_id"
+    t.integer  "customer_id"
+    t.datetime "training_start"
+    t.datetime "training_end"
+    t.integer  "trainer_id"
+    t.integer  "price_per_hour"
+    t.integer  "discount_per_hour"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

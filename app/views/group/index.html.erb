@@ -31,3 +31,40 @@
 		</table>
 	</p>
 <% end %>
+<p>
+	<h2>Zusatztrainings</h2>
+	<p>
+		<%= link_to "Neues Zusatztraining erstellen", new_additional_training_path %>
+	</p>
+	<table>
+		<thead>
+			<tr>
+				<th>Datum</th>
+				<th>Trainer</th>
+				<th>Spieler</th>
+				<th>Aktionen</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @additional_trainings_ids.each do |at_id| %>
+				<% additional_training =AdditionalTraining.where(:training_id => at_id).first %>
+				<tr>
+					<td>
+						<%= additional_training.training_start.strftime("%d.%m.%Y") %><br />
+						<%= additional_training.training_start.strftime("%H:%M") + " - " + additional_training.training_end.strftime("%H:%M") %>
+					</td>
+					<td><%= additional_training.trainer.user.name %></td>
+					<td>
+						<% AdditionalTraining.where(:training_id => at_id).each do |at| %>
+							<%= at.customer.name %><br />
+						<% end %>
+					</td>
+					<td class="actions_cell">
+						<%= link_to "Anzeigen", additional_training_path(additional_training.id) %> |
+						<%= link_to "Löschen", additional_training_path(additional_training.training_id), method: :delete, data: { confirm: "Wirklich löschen?" } %>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+</p>

@@ -4,6 +4,8 @@ class GroupController < ApplicationController
 
 	def index
 		@groups = Group.all.order(:name)
+		@additional_trainings_ids = AdditionalTraining.all.pluck(:training_id)
+		@additional_trainings_ids = @additional_trainings_ids.uniq{|x| x}
 	end
 
 	def show

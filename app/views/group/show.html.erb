@@ -53,7 +53,7 @@
 		<tbody>
 			<% total_lessons = 0.0 %>
 			<% if @group.groupclassifications.count > 0 %>
-				<% Training.where(:groupclassification_id => @group.groupclassifications.first.id).each do |training_time| %>
+				<% Training.where(:groupclassification_id => @group.groupclassifications.first.id).order(:training_start).each do |training_time| %>
 					<tr>
 						<td>
 							<%= training_time.training_start.strftime("%d.%m.%Y") %><br />
