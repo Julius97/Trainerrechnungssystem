@@ -1,0 +1,51 @@
+<h1>Neues Zusatztraining erstellen</h1>
+<%= form_tag additional_training_index_path, method: :post do %>
+	<fieldset>
+		<legend>Trainingsdatum</legend>
+		<% if !mobile_device? %>
+			<%= label_tag "day", "Tag"%> <%= number_field_tag "day", Date.today.day,:in => 1..31, :step => 1 %>
+			<%= label_tag "month", "Monat"%> <%= number_field_tag "month", Date.today.month,:in => 1..12, :step => 1 %>
+			<%= label_tag "year", "Jahr"%> <%= number_field_tag "year", Date.today.year,:min => 2015, :step => 1 %>
+		<% else %>
+			<%= label_tag "day", "Tag"%> <%= number_field_tag "day", Date.today.day,:in => 1..31, :step => 1 %><br /><br />
+			<%= label_tag "month", "Monat"%> <%= number_field_tag "month", Date.today.month,:in => 1..12, :step => 1 %><br /><br />
+			<%= label_tag "year", "Jahr"%> <%= number_field_tag "year", Date.today.year,:min => 2015, :step => 1 %><br /><br />
+		<% end %>
+	</fieldset>
+	<br />
+	<fieldset>
+		<legend>Trainingsdauer</legend>
+		<% if !mobile_device? %>
+			<%= label_tag "from_hour", "Von"%> <%= number_field_tag "from_hour", DateTime.now.hour,:in => 0..23, :step => 1 %> : <%= number_field_tag "from_min", DateTime.now.min,:in => 0..59, :step => 5 %> <%= label_tag "to_hour", "bis"%> <%= number_field_tag "to_hour", DateTime.now.hour + 1,:in => 0..23, :step => 1 %> : <%= number_field_tag "to_min", DateTime.now.min,:in => 0..59, :step => 5 %>
+		<% else %>
+			<%= label_tag "from_hour", "Beginn"%><br /> <%= number_field_tag "from_hour", DateTime.now.hour,:in => 0..23, :step => 1 %> : <%= number_field_tag "from_min", DateTime.now.min,:in => 0..59, :step => 5 %><br /><br /><%= label_tag "to_hour", "Ende"%><br /><%= number_field_tag "to_hour", DateTime.now.hour + 1,:in => 0..23, :step => 1 %> : <%= number_field_tag "to_min", DateTime.now.min,:in => 0..59, :step => 5 %>
+		<% end %>
+	</fieldset><br />
+	<%= label_tag "trainer_id", "Trainer" %>
+	<select name="trainer_id">
+		<% Trainer.all.each do |trainer| %>
+			<option value="<%= trainer.id %>"><%= trainer.user.name %></option>
+		<% end %>
+	</select><br /><br />
+	<h2>Anwesende Spieler</h2>
+	<table>
+		<tbody>
+			<% Customer.all.order(:last_name,:first_name).each do |customer| %>
+				<tr>
+					<td>
+						<%= label_tag "customer[" + customer.id.to_s + "]", customer.name %>
+					</td>
+					<td>
+						<%= check_box("customer", customer.id.to_s) %>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+	<br /><br />
+	<%= label_tag "price_per_hour", "Preis pro Stunde" %><br />
+	<%= number_field_tag "price_per_hour", 1, :step => 1, :min => 1 %><br /><br />
+	<%= label_tag "discount_per_hour", "Zuschuss pro Stunde" %><br />
+	<%= number_field_tag "discount_per_hour", 0, :step => 1, :min => 0 %><br /><br />
+	<%= submit_tag "Erstellen" %>
+<% end %>

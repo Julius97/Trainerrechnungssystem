@@ -1,0 +1,50 @@
+<h1>Zusatztraining anzeigen</h1>
+<p>
+	<table>
+		<tbody>
+			<tr>	
+				<td><b>Datum</b></td>
+				<td>
+					<%= @additional_training.training_start.strftime("%d.%m.%Y") %><br />
+					<%= @additional_training.training_start.strftime("%H:%M") + " - " + @additional_training.training_end.strftime("%H:%M Uhr") %>
+				</td>
+			</tr>
+			<tr>
+				<td><b>Stunden</b></td>
+				<td><%= ((@additional_training.training_end - @additional_training.training_start)/3600).to_s + " h" %></td>
+			</tr>
+			<tr>
+				<td><b>Trainer</b></td>
+				<td><%= @additional_training.trainer.user.name %></td>
+			</tr>
+			<tr>
+				<td><b>Spieler</b></td>
+				<td>
+					<% AdditionalTraining.where(:training_id => @additional_training.training_id).each do |x| %>
+						<%= x.customer.name %><br />
+					<% end %>
+				</td>
+			</tr>
+			<tr>
+				<td><b>Preis / h</b></td>
+				<td><%= @additional_training.price_per_hour.to_s + " €" %></td>
+			</tr>
+			<tr>
+				<td><b>Zuschuss / h</b></td>
+				<td><%= @additional_training.discount_per_hour.to_s + " €" %></td>
+			</tr>
+			<tr>
+				<td><b>Gesamtrechnung</b></td>
+				<td>
+					Trainerkosten: <%= (((@additional_training.training_end - @additional_training.training_start)/3600) * @additional_training.price_per_hour).to_s + " €" %> 
+					<br />
+					Zuschuss: <%= (((@additional_training.training_end - @additional_training.training_start)/3600) * @additional_training.discount_per_hour).to_s + " €" %> 
+					<br />
+					Spieleranzahl: <%= AdditionalTraining.where(:training_id => @additional_training.training_id).count.to_s %>
+					<br />
+					Kosten pro Spieler: <%= (((((@additional_training.training_end - @additional_training.training_start)/3600) * @additional_training.price_per_hour) - (((@additional_training.training_end - @additional_training.training_start)/3600) * @additional_training.discount_per_hour)) / AdditionalTraining.where(:training_id => @additional_training.training_id).count).to_s + " €" %>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</p>
