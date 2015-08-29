@@ -68,6 +68,8 @@ class UserController < ApplicationController
 					@user = User.find_by_id params[:id]
 					if @user.trainer
 						@groups = @user.trainer.groups
+						@additional_trainings_ids = @user.trainer.additional_trainings.pluck(:training_id)
+						@additional_trainings_ids = @additional_trainings_ids.uniq{|x| x}
 					end
 				else
 					flash[:error] = "Fremdes Nutzerprofil angefordert. Sie verfügen über keine Berechtigung für diese Aktion"

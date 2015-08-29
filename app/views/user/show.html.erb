@@ -222,6 +222,79 @@
 						<% end %>
 					</table>
 				<% end %>
+				<% if accountingGroup.name == "Vereinstraining" %>
+					<% total_lessons = 0.0 %>
+					<% total_trainer_costs = 0.0 %>
+					<% total_club_costs = 0.0 %>
+					<% total_customer_costs = 0.0 %>
+					<table>
+						<thead>
+							<tr>
+								<th style="font-size:20px;" colspan="4">Zusatztraining</th>
+							</tr>
+							<tr>
+								<th>Datum</th>
+								<th>Stunden</th>
+								<th>Preis / h</th>
+								<th>Zuschuss / h</th>
+								<th>Spieler</th>
+								<th>Preis</th>
+								<th>Preis / anw. Spieler</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @additional_trainings_ids.each do |at_id| %>
+								<% additional_training = AdditionalTraining.where(:training_id => at_id).first %>
+								<tr>
+									<td>
+										<%= additional_training.training_start.strftime("%d.%m.%Y") %><br />
+										<%= additional_training.training_start.strftime("%H:%M") + " - " + additional_training.training_end.strftime("%H:%M") %>
+									</td>
+									<td>
+										<% total_lessons += (additional_training.training_end - additional_training.training_start)/3600 %>
+										<% total_trainer_costs += ((additional_training.training_end - additional_training.training_start)/3600) * additional_training.price_per_hour %>
+										<% total_club_costs += ((additional_training.training_end - additional_training.training_start)/3600) * additional_training.discount_per_hour %>
+										<% total_customer_costs = total_trainer_costs - total_club_costs %>
+										<%= ((additional_training.training_end - additional_training.training_start)/3600).to_s + " h" %>
+									</td>
+									<td>
+										<%= additional_training.price_per_hour.to_s + " €" %>
+									</td>
+									<td>
+										<%= additional_training.discount_per_hour.to_s + " €" %>
+									</td>
+									<td>
+										<% AdditionalTraining.where(:training_id => at_id).each do |at| %>
+											<%= at.customer.name %><br />
+										<% end %>
+									</td>
+									<td><%=  ((additional_training.training_end - additional_training.training_start)/3600).to_s + " * " + additional_training.price_per_hour.to_s + " € = " + (((additional_training.training_end - additional_training.training_start)/3600) * additional_training.price_per_hour).to_s + " €" %></td>
+									<td>
+										<%=  ((additional_training.training_end - additional_training.training_start)/3600).to_s + " * (" + (additional_training.price_per_hour - additional_training.discount_per_hour).to_s + " € / " + AdditionalTraining.where(:training_id => at_id).count.to_s + ") = " + (((((additional_training.training_end - additional_training.training_start)/3600) * additional_training.price_per_hour) - (((additional_training.training_end - additional_training.training_start)/3600) * additional_training.discount_per_hour)) / AdditionalTraining.where(:training_id => additional_training.training_id).count).to_s + " €" %>
+									</td>
+								</tr>
+							<% end %>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td><b>Rechnungsbetrag</b></td>
+								<td><%= total_lessons.to_s + " h" %></td>
+								<td colspan="3">Bei jeder einzelnen Einheit flexibel (siehe "Preis / anw. Spieler")</td>
+								<td><%= total_trainer_costs.to_s + " €" %> </td>
+								<td>
+									<b>Kontrolle:</b><br />
+									Spieler: <%= total_customer_costs.to_s + " €" %><br />
+									Verein: <%= total_club_costs.to_s + " €" %><br />
+									Summe: <%= (total_customer_costs + total_club_costs).to_s + " €" %>
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+					<% overall_given_group_lessons += total_lessons %>
+					<% overall_club_costs += total_club_costs %>
+					<% overall_customer_costs += total_customer_costs %>
+					<% overall_trainer_costs += total_trainer_costs %>
+				<% end %>
 			</div>
 			<% total_balance_lessons += overall_given_group_lessons %>
 			<% total_balance_customer_costs += overall_customer_costs %>
