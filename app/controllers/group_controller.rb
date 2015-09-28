@@ -9,8 +9,8 @@ class GroupController < ApplicationController
 	end
 
 	def show
-		if params[:id]
-			if Group.find_by_id params[:id]
+		if params[:id] && params[:acc_period_id]
+			if Group.find_by_id(params[:id]) && AccountingPeriod.find_by_id(params[:acc_period_id])
 				@group = Group.find_by_id params[:id]
 				if !Group.find_by_id(params[:id]).price.nil?
 					@price_per_lesson = @group.price.price_per_lesson
@@ -18,11 +18,11 @@ class GroupController < ApplicationController
 					@wdays = ["Sonntags","Montags","Dienstags","Mittwochs","Donnerstags","Freitags","Samstags"]
 				end
 			else
-				flash[:error] = "Fehler im System: Gruppe konnte nicht gefunden werden"
+				flash[:error] = "Fehler im System: Gruppe oder Abrechnungszeitraum konnte nicht gefunden werden"
 				redirect_to group_index_path
 			end
 		else
-			flash[:error] = "Fehler im System: Gruppe konnte nicht gefunden werden"
+			flash[:error] = "Fehler im System: Gruppe oder Abrechnungszeitraum konnte nicht gefunden werden"
 			redirect_to group_index_path
 		end
 	end

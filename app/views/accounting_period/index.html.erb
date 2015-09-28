@@ -1,0 +1,24 @@
+<h1>Abrechnungszeiträume</h1>
+<p>
+	<%= link_to "Neuen Abrechnungszeitraum", new_accounting_period_path %>
+</p>
+<table>
+	<thead>
+		<tr>
+			<th>Abrechnungsgruppe</th>
+			<th>Zeitraum</th>
+			<th>Aktionen</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @acc_periods.each do |acc_period| %>
+			<tr>
+				<td><%= acc_period.accounting_group.name %></td>
+				<td><%= acc_period.start_date.strftime("%d.%m.%Y - ") %><%= acc_period.end_date.strftime("%d.%m.%Y") %></td>
+				<td class="actions_cell"> 
+					<%= link_to "Löschen", accounting_period_path(acc_period.id), method: :delete, data: { confirm: "Wirklich löschen?" } %>
+				</td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>

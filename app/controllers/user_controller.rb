@@ -67,9 +67,19 @@ class UserController < ApplicationController
 				if User.find_by_id(params[:id]).id == @current_user.id || @current_user.admin_permissions
 					@user = User.find_by_id params[:id]
 					if @user.trainer
-						@groups = @user.trainer.groups
-						@additional_trainings_ids = @user.trainer.additional_trainings.pluck(:training_id)
-						@additional_trainings_ids = @additional_trainings_ids.uniq{|x| x}
+						if AccountingPeriod.find_by_id(params[:acc_period_id])
+							@groups = @user.trainer.groups
+							if AccountingPeriod.find_by_id(params[:acc_period_id]).accounting_group.name == "Vereinstraining"
+								@additional_trainings_ids = @user.trainer.additional_trainings.where("training_start >= ? AND training_end <= ?",AccountingGroup.find_by_name("Vereinstraining").accounting_periods.find_by_id(params[:acc_period_id]).start_date.to_datetime, AccountingGroup.find_by_name("Vereinstraining").accounting_periods.find_by_id(params[:acc_period_id]).end_date.to_datetime).pluck(:training_id)
+								@additional_trainings_ids = @additional_trainings_ids.uniq{|x| x}
+							else
+								@additional_trainings_ids = @user.trainer.additional_trainings.where("training_start >= ? AND training_end <= ?",AccountingGroup.find_by_name("Vereinstraining").actual_acc_period.start_date.to_datetime, AccountingGroup.find_by_name("Vereinstraining").actual_acc_period.end_date.to_datetime).pluck(:training_id)
+								@additional_trainings_ids = @additional_trainings_ids.uniq{|x| x}
+							end
+						else
+							flash[:error] = "Dieser Nutzer ist ein Trainer und benötigt daher einen Abrechnungszeitraum"
+							redirect_to user_index_path
+						end
 					end
 				else
 					flash[:error] = "Fremdes Nutzerprofil angefordert. Sie verfügen über keine Berechtigung für diese Aktion"

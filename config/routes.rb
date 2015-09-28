@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   #USER ROUTES
   resources :user
+  get "/user/:id/:acc_period_id", to: "user#show", :as => "user_with_acc_period"
   get "register", to: "user#new", :as => "register"
   post "register", to: "user#create"
 
@@ -23,10 +24,14 @@ Rails.application.routes.draw do
 
   #GROUP ROUTES
   resources :group
+  get "/group/:id/:acc_period_id", to: "group#show", :as => "group_with_acc_period"
   post "add_customer_to_group", to: "group#add_customer_to_group"
 
   #ACCOUNTING GROUP ROUTES
   resources :accounting_group
+
+  #ACCOUNTING PERIOD ROUTES
+  resources :accounting_period
 
   #GROUPCLASSIFICATION ROUTES
   resources :groupclassification

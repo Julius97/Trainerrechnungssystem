@@ -1,7 +1,8 @@
 <h1>Trainingsgruppen</h1>
 <p>
 	<%= link_to "Neue Gruppe erstellen", new_group_path %><br />
-	<%= link_to "Neue Abrechnungsgruppe erstellen", new_accounting_group_path %>
+	<%= link_to "Neue Abrechnungsgruppe erstellen", new_accounting_group_path %><br />
+	<%= link_to "Abrechnungszeiträume verwalten", accounting_period_index_path %>
 </p>
 <% AccountingGroup.all.each do |accountingGroup| %>
 	<h2><%= accountingGroup.name %></h2>
@@ -20,7 +21,7 @@
 			<tbody>
 				<% @groups.where(:accounting_group_id => accountingGroup.id).each do |group| %>
 				<tr>
-					<td><%= link_to group.name + " (" + group.trainer.user.name + ")", group_path(group.id) %></td>
+					<td><%= link_to group.name + " (" + group.trainer.user.name + ")", group_with_acc_period_path(group.id, group.accounting_group.actual_acc_period.id) %></td>
 					<td class="actions_cell">
 						<%= link_to "Bearbeiten", edit_group_path(group.id) %> | 
 						<%= link_to "Löschen", group_path(group.id), method: :delete, data: { confirm: "Wirklich löschen?" } %>

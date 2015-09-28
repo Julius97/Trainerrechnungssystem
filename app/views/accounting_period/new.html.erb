@@ -1,0 +1,31 @@
+<h1>Neuen Abrechnungszeitraum erstellen</h1>
+<%= form_tag accounting_period_index_path, method: :post do %>
+	<%= label_tag "acc_group_id", "Abrechnungsgruppe" %><br />
+	<%= select_tag "acc_group_id", options_from_collection_for_select(AccountingGroup.all.order(:id), "id", "name"), prompt: "Bitte auswählen" %><br /><br />
+	<fieldset>
+		<legend>Startdatum</legend>
+		<% if !mobile_device? %>
+			<%= label_tag "from_day", "Tag"%> <%= number_field_tag "from_day", 1,:in => 1..31, :step => 1 %>
+			<%= label_tag "from_month", "Monat"%> <%= number_field_tag "from_month", Date.today.month,:in => 1..12, :step => 1 %>
+			<%= label_tag "from_year", "Jahr"%> <%= number_field_tag "from_year", Date.today.year,:min => 2015, :step => 1 %>
+		<% else %>
+			<%= label_tag "from_day", "Tag"%> <%= number_field_tag "from_day", 1,:in => 1..31, :step => 1 %><br /><br />
+			<%= label_tag "from_month", "Monat"%> <%= number_field_tag "from_month", Date.today.month,:in => 1..12, :step => 1 %><br /><br />
+			<%= label_tag "from_year", "Jahr"%> <%= number_field_tag "from_year", Date.today.year,:min => 2015, :step => 1 %><br /><br />
+		<% end %>
+	</fieldset>
+	<fieldset>
+		<legend>Abschlussdatum</legend>
+		<% if !mobile_device? %>
+			<%= label_tag "to_day", "Tag"%> <%= number_field_tag "to_day", 30,:in => 1..31, :step => 1 %>
+			<%= label_tag "to_month", "Monat"%> <%= number_field_tag "to_month", Date.today.month,:in => 1..12, :step => 1 %>
+			<%= label_tag "to_year", "Jahr"%> <%= number_field_tag "to_year", Date.today.year,:min => 2015, :step => 1 %>
+		<% else %>
+			<%= label_tag "to_day", "Tag"%> <%= number_field_tag "to_day", 30,:in => 1..31, :step => 1 %><br /><br />
+			<%= label_tag "to_month", "Monat"%> <%= number_field_tag "to_month", Date.today.month,:in => 1..12, :step => 1 %><br /><br />
+			<%= label_tag "to_year", "Jahr"%> <%= number_field_tag "to_year", Date.today.year,:min => 2015, :step => 1 %><br /><br />
+		<% end %>
+	</fieldset>
+	<br /><br />
+	<%= submit_tag "Erstellen" %>
+<% end %>

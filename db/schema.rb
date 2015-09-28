@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150828070502) do
+ActiveRecord::Schema.define(version: 20150923224142) do
 
   create_table "account_informations", force: true do |t|
     t.string   "account_number",     limit: 9
@@ -26,6 +26,14 @@ ActiveRecord::Schema.define(version: 20150828070502) do
 
   create_table "accounting_groups", force: true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "accounting_periods", force: true do |t|
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "accounting_group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

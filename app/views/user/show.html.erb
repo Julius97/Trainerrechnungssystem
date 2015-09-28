@@ -10,7 +10,7 @@
 		<ul class="counting_ul">
 			<% @user.trainer.groups.each do |group| %>
 				<li>
-					<%= link_to group.name, group_path(group.id) %> <%= "(" + group.groupclassifications.count.to_s + " Spieler)" %>
+					<%= link_to group.name, group_with_acc_period_path(group.id,group.accounting_group.actual_acc_period.id) %> <%= "(" + group.groupclassifications.count.to_s + " Spieler)" %>
 					<% if group.price %>
 						(Lohn: <%= group.price.price_per_lesson %> € / h)
 					<% else %>
@@ -69,12 +69,42 @@
 <% total_balance_trainer_costs = 0.0 %>
 <h2 class="bigger_h2_heading">Rechnungen</h2>
 	<% AccountingGroup.all.each_with_index do |accountingGroup,accGroupIndex| %>
+		<h2>Abrechnungszeiträume</h2>
+		<ul class="counting_ul">
+			<% accountingGroup.accounting_periods.each do |acc_period| %>
+				<li>
+					<%= acc_period.start_date.strftime("%d.%m.%Y") %> - <%= acc_period.end_date.strftime("%d.%m.%Y") %>
+					<% if accountingGroup.accounting_periods.find_by_id(params[:acc_period_id]) %>
+						<% if accountingGroup.accounting_periods.find_by_id(params[:acc_period_id]).id == acc_period.id %>
+							- (wird gerade angezeigt)
+						<% else %>
+							- <%= link_to "Anzeigen", user_with_acc_period_path(@user.id,acc_period.id) %>
+						<% end %>
+					<% else %>
+						<% if accountingGroup.actual_acc_period.id == acc_period.id %>
+							- (wird gerade angezeigt)
+						<% else %>
+							- <%= link_to "Anzeigen", user_with_acc_period_path(@user.id,acc_period.id) %>
+						<% end %>
+					<% end %>
+				</li>
+			<% end %>
+		</ul>
 		<div class="bill" id="bill_<%= accGroupIndex.to_s %>">
 			<% overall_given_group_lessons = 0.0 %>
 			<% overall_customer_costs = 0.0 %>
 			<% overall_club_costs = 0.0 %>
 			<% overall_trainer_costs = 0.0 %>
+			<br />
 			<h2>Rechnung - <%= accountingGroup.name %></h2>
+			<h2>
+				Abrechnungszeitraum vom
+				<% if accountingGroup.accounting_periods.find_by_id(params[:acc_period_id]) %>
+					<%= accountingGroup.accounting_periods.find_by_id(params[:acc_period_id]).start_date.strftime("%d.%m.%Y bis ") + accountingGroup.accounting_periods.find_by_id(params[:acc_period_id]).end_date.strftime("%d.%m.%Y") %>
+				<% else %>
+					<%= accountingGroup.actual_acc_period.start_date.strftime("%d.%m.%Y bis ") +  accountingGroup.actual_acc_period.end_date.strftime("%d.%m.%Y") %> 
+				<% end %>
+			</h2>
 			<div class="scroll_vertical_enable">
 				<% @groups.where(:accounting_group_id => accountingGroup.id).order(:name).each do |group| %>
 					<% if group.price %>
@@ -102,7 +132,12 @@
 						<tbody>
 							<% total_lessons = 0.0 %>
 							<% if group.groupclassifications.count > 0 %>
-								<% Training.where(:groupclassification_id => group.groupclassifications.first.id).order(:training_start).each do |training_time| %>
+								<% if !accountingGroup.accounting_periods.find_by_id(params[:acc_period_id]) %>
+									<% old_acc_period_params = params[:acc_period_id] %>
+									<% params[:acc_period_id] = accountingGroup.actual_acc_period.id %>
+								<% end %>
+								<% Training.where("training_start >= ? AND training_end <= ?",group.accounting_group.accounting_periods.find_by_id(params[:acc_period_id]).start_date.to_datetime, group.accounting_group.accounting_periods.find_by_id(params[:acc_period_id]).end_date.to_datetime).where(:groupclassification_id => group.groupclassifications.first.id).order(:training_start).each do |training_time| %>
+									<% params[:acc_period_id] = old_acc_period_params %>
 									<tr>
 										<td>
 											<%= training_time.training_start.strftime("%d.%m.%Y") %><br />

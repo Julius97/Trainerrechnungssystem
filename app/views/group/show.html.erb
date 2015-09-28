@@ -29,7 +29,20 @@
 		keine
 	<% end %>
 </ul>
-<h3>Training gegeben</h3>
+<h3>Abrechnungszeiträume</h3>
+<ul class="counting_ul">
+	<% @group.accounting_group.accounting_periods.each do |acc_period| %>
+		<li>
+			<%= acc_period.start_date.strftime("%d.%m.%Y") %> - <%= acc_period.end_date.strftime("%d.%m.%Y") %>
+			<% if @group.accounting_group.accounting_periods.find_by_id(params[:acc_period_id]).id == acc_period.id %>
+				- (wird gerade angezeigt)
+			<% else %>
+				- <%= link_to "Anzeigen", group_with_acc_period_path(@group.id, acc_period.id) %>
+			<% end %>
+		</li>
+	<% end %>
+</ul>
+<h3>Training gegeben vom <%= @group.accounting_group.accounting_periods.find_by_id(params[:acc_period_id]).start_date.strftime("%d.%m.%Y - ") %> <%= @group.accounting_group.accounting_periods.find_by_id(params[:acc_period_id]).end_date.strftime("%d.%m.%Y") %></h3>
 <div class="scroll_vertical_enable">
 	<table id="trainings_table">
 		<thead>
@@ -53,7 +66,7 @@
 		<tbody>
 			<% total_lessons = 0.0 %>
 			<% if @group.groupclassifications.count > 0 %>
-				<% Training.where(:groupclassification_id => @group.groupclassifications.first.id).order(:training_start).each do |training_time| %>
+				<% Training.where("training_start >= ? AND training_end <= ?",@group.accounting_group.accounting_periods.find_by_id(params[:acc_period_id]).start_date.to_datetime, @group.accounting_group.accounting_periods.find_by_id(params[:acc_period_id]).end_date.to_datetime).where(:groupclassification_id => @group.groupclassifications.first.id).order(:training_start).each do |training_time| %>
 					<tr>
 						<td>
 							<%= training_time.training_start.strftime("%d.%m.%Y") %><br />

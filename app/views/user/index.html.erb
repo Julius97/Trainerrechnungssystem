@@ -13,7 +13,12 @@
 	<tbody>
 		<% @users.each do |user| %>
 			<tr>
-				<td><%= link_to user.name, user_path(user.id) %></td>
+				<td>
+					<% if !user.trainer %>
+						<%= link_to user.name, user_path(user.id) %></td>
+					<% else %>
+						<%= link_to user.name, user_with_acc_period_path(user.id,user.trainer.groups.first.accounting_group.actual_acc_period.id) %></td>
+					<% end %>
 				<td><%= user.trainer ? "Ja" : "Nein" %></td>
 				<td class="actions_cell">
 					<%= link_to "Bearbeiten", edit_user_path(user.id) %> | 
